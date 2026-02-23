@@ -1,129 +1,167 @@
-import type { Metadata } from "next";
+"use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { getUserByUsername, getContributionsByUser, getProjectsByUser, mockUsers } from "@/lib/mock-data";
 import ProfileHeader from "@/components/ProfileHeader";
+import SkillBar from "@/components/SkillBar";
+import ActivityTimeline from "@/components/ActivityTimeline";
+import StatsRow from "@/components/StatsRow";
 import ContributionCard from "@/components/ContributionCard";
 import ProjectCard from "@/components/ProjectCard";
-import type { User, Project, Contribution } from "@/lib/api";
 
-interface ProfilePageProps {
-  params: { username: string };
-}
+export default function ProfilePage() {
+  const params = useParams();
+  const username = params.username as string;
+  const [starred, setStarred] = useState(false);
 
-export async function generateMetadata({
-  params,
-}: ProfilePageProps): Promise<Metadata> {
-  const { username } = params;
-  return {
-    title: `${username} — Open Coders`,
-    description: `${username}'s developer portfolio on Open Coders`,
-    openGraph: {
-      title: `${username} — Open Coders`,
-      description: `Check out ${username}'s open source contributions and projects`,
-      url: `https://opencoders.org/${username}`,
-      type: "profile",
-      images: [
-        {
-          url: `https://api.opencoders.org/api/users/${username}/og-image/`,
-          width: 1200,
-          height: 630,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${username} — Open Coders`,
-      description: `Check out ${username}'s open source contributions and projects`,
-    },
+  const mockUser = getUserByUsername(username) || {
+    ...mockUsers[0],
+    username,
+    avatar_url: `https://ui-avatars.com/api/?name=${username}&background=a3e635&color=000&bold=true&size=128`,
   };
-}
 
-// Placeholder data
-const placeholderUser: User = {
-  id: 1,
-  username: "sarah_dev",
-  github_id: "12345",
-  bio: "Full-stack developer passionate about open source. Building tools that make developers' lives easier.",
-  portfolio_slug: "sarah",
-  avatar_url: "",
-  is_bot_verified: true,
-  location: "San Francisco, CA",
-  website: "https://sarah.dev",
-  created_at: "2023-06-15T10:00:00Z",
-  updated_at: "2024-01-20T10:00:00Z",
-};
-
-const placeholderProjects: Project[] = [
-  {
-    id: 1,
-    name: "DevTracker",
-    slug: "devtracker",
-    is_official: false,
-    owner_org: "",
-    repo_url: "https://github.com/sarah_dev/devtracker",
-    logo: "",
-    description: "Track your development habits and boost productivity",
-    tech_stack: ["React", "Node.js", "PostgreSQL"],
-    owner: { id: 1, username: "sarah_dev", avatar_url: "", portfolio_slug: "sarah" },
-    created_at: "2024-01-15T10:00:00Z",
-  },
-];
-
-const placeholderContributions: Contribution[] = [
-  {
-    id: 1,
-    user: { id: 1, username: "sarah_dev", avatar_url: "" },
-    project: 1,
-    type: "PR",
-    verification_status: "VERIFIED",
-    url: "https://github.com/example/repo/pull/42",
-    title: "Add dark mode support to dashboard",
-    date: "2024-01-19T15:30:00Z",
-  },
-  {
-    id: 2,
-    user: { id: 1, username: "sarah_dev", avatar_url: "" },
-    project: 1,
-    type: "ISSUE",
-    verification_status: "VERIFIED",
-    url: "https://github.com/example/repo/issues/38",
-    title: "Fix memory leak in WebSocket handler",
-    date: "2024-01-17T10:00:00Z",
-  },
-  {
-    id: 3,
-    user: { id: 1, username: "sarah_dev", avatar_url: "" },
-    project: 2,
-    type: "COMMIT",
-    verification_status: "PENDING",
-    url: "https://github.com/example/repo2/commit/abc123",
-    title: "Refactor authentication middleware",
-    date: "2024-01-16T08:00:00Z",
-  },
-];
-
-export default function ProfilePage({ params }: ProfilePageProps) {
-  const user = { ...placeholderUser, username: params.username };
+  const contributions = getContributionsByUser(mockUser.id);
+  const projects = getProjectsByUser(mockUser.id);
+  const pinnedContributions = contributions.filter((c) => c.verification_status === "VERIFIED").slice(0, 4);
+  const uniqueProjects = new Set(contributions.map((c) => c.project)).size;
+  const uniqueLangs = new Set(mockUser.skills?.map((s) => s.name) || []).size;
 
   return (
     <div>
-      <ProfileHeader user={user} />
+      {/* Profile Header */}
+      <div className="card-brutal-pink">
+        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+          <img
+            src={mockUser.avatar_url}
+            alt={mockUser.username}
+            className="h-28 w-28 rounded-xl border-3 border-black shadow-brutal"
+          />
+          <div className="flex-1 text-center sm:text-left">
+            <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
+              <h1 className="text-3xl font-black uppercase tracking-tight text-black">
+                {mockUser.username}
+              </h1>
+              {mockUser.is_bot_verified && (
+                <span className="badge-brutal bg-brutal-lime text-black">✓ VERIFIED</span>
+              )}
+              <button
+                onClick={() => setStarred((s) => !s)}
+                className={`badge-brutal transition-all cursor-pointer ${
+                  starred ? "bg-brutal-yellow text-black" : "bg-white text-gray-500 hover:bg-brutal-yellow/30"
+                }`}
+              >
+                {starred ? "⭐ Starred" : "☆ Star"}
+              </button>
+            </div>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-2xl font-extrabold text-black">
-            Recent Contributions
-          </h2>
-          <div className="space-y-3">
-            {placeholderContributions.map((c) => (
-              <ContributionCard key={c.id} contribution={c} />
-            ))}
+            {mockUser.bio && (
+              <p className="mt-3 max-w-xl text-base font-semibold text-gray-600">{mockUser.bio}</p>
+            )}
+
+            <div className="mt-4 flex flex-wrap items-center gap-3 justify-center sm:justify-start">
+              {mockUser.location && (
+                <span className="badge-brutal bg-brutal-cyan text-black">📍 {mockUser.location}</span>
+              )}
+              {mockUser.website && (
+                <a href={mockUser.website} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-brutal-blue text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
+                  🔗 {new URL(mockUser.website).hostname}
+                </a>
+              )}
+              {mockUser.github_url && (
+                <a href={mockUser.github_url} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-black text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
+                  GitHub
+                </a>
+              )}
+              <span className="badge-brutal bg-brutal-muted text-gray-600">
+                Joined {new Date(mockUser.created_at).toLocaleDateString()}
+              </span>
+            </div>
+
+            <div className="mt-3 flex gap-4 justify-center sm:justify-start text-sm font-bold">
+              <span><strong className="text-black">{mockUser.followers}</strong> <span className="text-gray-400">followers</span></span>
+              <span><strong className="text-black">{mockUser.following}</strong> <span className="text-gray-400">following</span></span>
+            </div>
           </div>
         </div>
+      </div>
 
+      {/* Stats Row */}
+      <div className="mt-8">
+        <StatsRow stats={[
+          { label: "Contributions", value: mockUser.contribution_count || contributions.length },
+          { label: "Projects", value: uniqueProjects },
+          { label: "Languages", value: uniqueLangs },
+          { label: "Followers", value: mockUser.followers },
+        ]} />
+      </div>
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-3">
+        {/* Main content */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Pinned Contributions */}
+          <section>
+            <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
+              📌 Pinned <span className="text-brutal-blue">Contributions</span>
+            </h2>
+            <div className="space-y-3">
+              {pinnedContributions.length > 0 ? (
+                pinnedContributions.map((c) => (
+                  <ContributionCard key={c.id} contribution={c} />
+                ))
+              ) : (
+                <div className="card-brutal text-center py-8">
+                  <p className="font-black uppercase text-gray-400">No pinned contributions yet</p>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Activity Timeline */}
+          <section>
+            <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
+              ⏳ Activity <span className="text-brutal-pink">Timeline</span>
+            </h2>
+            {contributions.length > 0 ? (
+              <ActivityTimeline contributions={contributions} />
+            ) : (
+              <div className="card-brutal text-center py-8">
+                <p className="font-black uppercase text-gray-400">No activity yet</p>
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* Sidebar */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-extrabold text-black">Projects</h2>
-          {placeholderProjects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
+          {/* Skills */}
+          <div className="card-brutal-yellow">
+            <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
+              💻 Skills
+            </h2>
+            {mockUser.skills && mockUser.skills.length > 0 ? (
+              <SkillBar skills={mockUser.skills} />
+            ) : (
+              <p className="text-sm font-semibold text-gray-400">No skills data</p>
+            )}
+          </div>
+
+          {/* Projects */}
+          <div>
+            <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
+              📦 <span className="text-brutal-pink">Projects</span>
+            </h2>
+            {projects.length > 0 ? (
+              <div className="space-y-4">
+                {projects.map((p) => (
+                  <ProjectCard key={p.id} project={p} />
+                ))}
+              </div>
+            ) : (
+              <div className="card-brutal text-center py-6">
+                <p className="font-black uppercase text-gray-400 text-sm">No projects yet</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

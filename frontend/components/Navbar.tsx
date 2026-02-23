@@ -1,6 +1,10 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <nav className="sticky top-0 z-50 border-b-3 border-black bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
@@ -13,12 +17,13 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        {/* Desktop */}
+        <div className="hidden md:flex items-center gap-4">
           <Link
             href="/explore"
             className="rounded-lg border-3 border-black bg-brutal-cyan/10 px-4 py-2 text-sm font-extrabold uppercase tracking-wide text-black shadow-brutal-sm transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none hover:bg-brutal-cyan"
           >
-            Explore
+            🔍 Explore
           </Link>
           <Link href="/login" className="btn-brutal">
             <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -27,7 +32,24 @@ export default function Navbar() {
             Sign In
           </Link>
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMenuOpen((o) => !o)}
+          className="flex md:hidden h-10 w-10 items-center justify-center rounded-lg border-3 border-black bg-white shadow-brutal-sm text-xl"
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden border-t-3 border-black bg-white px-4 pb-4 space-y-3">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="block rounded-lg border-2 border-black bg-brutal-lime/10 px-4 py-3 font-extrabold uppercase text-sm">🚀 Launchpad</Link>
+          <Link href="/explore" onClick={() => setMenuOpen(false)} className="block rounded-lg border-2 border-black bg-brutal-cyan/10 px-4 py-3 font-extrabold uppercase text-sm">🔍 Explore</Link>
+          <Link href="/login" onClick={() => setMenuOpen(false)} className="block rounded-lg border-2 border-black bg-brutal-pink/10 px-4 py-3 font-extrabold uppercase text-sm">👤 Sign In</Link>
+        </div>
+      )}
     </nav>
   );
 }

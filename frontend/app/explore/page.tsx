@@ -1,78 +1,92 @@
+"use client";
+import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
-import type { Project } from "@/lib/api";
+import DeveloperCard from "@/components/DeveloperCard";
+import SearchBar from "@/components/SearchBar";
+import FilterTabs from "@/components/FilterTabs";
+import { mockProjects, mockUsers } from "@/lib/mock-data";
 
-const placeholderProjects: Project[] = [
-  {
-    id: 1,
-    name: "DevTracker",
-    slug: "devtracker",
-    is_official: false,
-    owner_org: "",
-    repo_url: "https://github.com/example/devtracker",
-    logo: "",
-    description: "Track your development habits and boost productivity with smart insights.",
-    tech_stack: ["React", "Node.js", "PostgreSQL"],
-    owner: { id: 1, username: "sarah_dev", avatar_url: "", portfolio_slug: "sarah" },
-    created_at: "2024-01-15T10:00:00Z",
-  },
-  {
-    id: 2,
-    name: "GitViz",
-    slug: "gitviz",
-    is_official: true,
-    owner_org: "opencoders",
-    repo_url: "https://github.com/opencoders/gitviz",
-    logo: "",
-    description: "Beautiful, interactive visualizations for your Git history and contribution patterns.",
-    tech_stack: ["TypeScript", "D3.js", "Rust"],
-    owner: { id: 2, username: "alex_rust", avatar_url: "", portfolio_slug: "alex" },
-    created_at: "2024-01-10T10:00:00Z",
-  },
-  {
-    id: 3,
-    name: "CodeReview Bot",
-    slug: "codereview-bot",
-    is_official: false,
-    owner_org: "",
-    repo_url: "https://github.com/example/codereview-bot",
-    logo: "",
-    description: "AI-powered code review assistant that integrates with GitHub PRs.",
-    tech_stack: ["Python", "FastAPI", "OpenAI"],
-    owner: { id: 3, username: "ml_ninja", avatar_url: "", portfolio_slug: "ml-ninja" },
-    created_at: "2024-01-08T10:00:00Z",
-  },
-];
+const sortOptions = ["Most Stars", "Most Active", "Newest"];
 
 export default function ExplorePage() {
+  const [query, setQuery] = useState("");
+  const [tab, setTab] = useState("Projects");
+  const [sort, setSort] = useState("Most Stars");
+
+  const q = query.toLowerCase();
+
+  const filteredProjects = mockProjects
+    .filter((p) => !q || p.name.toLowerCase().includes(q) || p.tech_stack.some((t) => t.toLowerCase().includes(q)) || p.description.toLowerCase().includes(q))
+    .sort((a, b) => {
+      if (sort === "Most Stars") return (b.star_count || 0) - (a.star_count || 0);
+      if (sort === "Newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      return (b.star_count || 0) - (a.star_count || 0);
+    });
+
+  const filteredDevs = mockUsers
+    .filter((u) => !q || u.username.toLowerCase().includes(q) || u.skills.some((s) => s.name.toLowerCase().includes(q)) || u.bio.toLowerCase().includes(q))
+    .sort((a, b) => {
+      if (sort === "Most Active") return b.contribution_count - a.contribution_count;
+      if (sort === "Most Stars") return b.followers - a.followers;
+      if (sort === "Newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      return 0;
+    });
+
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="text-5xl font-extrabold text-black">🔍 Explore Projects</h1>
+      <div className="mb-10 rounded-xl border-3 border-black bg-brutal-cyan/15 p-8 shadow-brutal-blue">
+        <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
+          🔍 Explore <span className="text-brutal-blue">{tab}</span>
+        </h1>
         <p className="mt-3 text-lg font-bold text-gray-600">
-          Discover open source projects from the community
+          Discover open source projects and developers from the community
         </p>
       </div>
 
-      <div className="mb-8 flex flex-wrap gap-3">
-        <input
-          type="text"
-          placeholder="Search projects..."
-          className="input-brutal flex-1"
-        />
-        <select className="rounded-xl border-3 border-black bg-white px-4 py-3 font-bold text-black shadow-brutal focus:shadow-brutal-lime focus:outline-none">
-          <option>All Tech</option>
-          <option>TypeScript</option>
-          <option>Python</option>
-          <option>Rust</option>
-          <option>Go</option>
-        </select>
+      <div className="mb-6">
+        <SearchBar value={query} onChange={setQuery} placeholder={`Search ${tab.toLowerCase()}...`} />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {placeholderProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <FilterTabs tabs={["Projects", "Developers"]} active={tab} onChange={setTab} />
+        <div className="flex gap-2">
+          {sortOptions.map((s) => (
+            <button
+              key={s}
+              onClick={() => setSort(s)}
+              className={`rounded-md border-2 border-black px-3 py-1.5 text-[11px] font-extrabold uppercase transition-all ${
+                sort === s ? "bg-brutal-yellow shadow-none" : "bg-white shadow-brutal-sm hover:bg-brutal-yellow/20"
+              }`}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {tab === "Projects" ? (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredProjects.length === 0 ? (
+            <div className="col-span-full card-brutal text-center py-12">
+              <p className="text-4xl mb-3">🔍</p>
+              <p className="font-black uppercase text-gray-400">No projects found</p>
+            </div>
+          ) : (
+            filteredProjects.map((p) => <ProjectCard key={p.id} project={p} />)
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredDevs.length === 0 ? (
+            <div className="col-span-full card-brutal text-center py-12">
+              <p className="text-4xl mb-3">🔍</p>
+              <p className="font-black uppercase text-gray-400">No developers found</p>
+            </div>
+          ) : (
+            filteredDevs.map((u, i) => <DeveloperCard key={u.id} user={u} index={i} />)
+          )}
+        </div>
+      )}
     </div>
   );
 }
