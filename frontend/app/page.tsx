@@ -1,140 +1,201 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
-import { mockLaunches, timeAgo } from "@/lib/mock-data";
-import UpvoteButton from "@/components/UpvoteButton";
-import FilterTabs from "@/components/FilterTabs";
+import { weeklyTrending, latestProjects, leaderboard, timeAgo } from "@/lib/mock-data";
 
-const filterDays: Record<string, number> = {
-  Today: 1,
-  "This Week": 7,
-  "This Month": 30,
-  All: 9999,
-};
+const stats = [
+  { label: "Developers", value: "1,200+" },
+  { label: "Projects", value: "500+" },
+  { label: "Contributions", value: "15,000+" },
+  { label: "Organizations", value: "50+" },
+];
+
+const howItWorks = [
+  { emoji: "🔗", title: "Connect Your Accounts", desc: "Link GitHub, GitLab, Bitbucket, or add projects manually from any source." },
+  { emoji: "🎨", title: "Build Your Portfolio", desc: "Pin your best contributions, showcase your impact across platforms." },
+  { emoji: "🚀", title: "Get Discovered", desc: "Appear in searches, get found by maintainers and recruiters." },
+];
+
+const features = [
+  { emoji: "📁", title: "Contributor Portfolio", desc: "Your developer Behance. Showcase PRs, commits, and projects across platforms." },
+  { emoji: "🚀", title: "Project Launchpad", desc: "Launch your open source project. Get upvotes, find contributors." },
+  { emoji: "📖", title: "Open Source Wiki", desc: "Dedicated hubs for major projects. Leaderboards, stats, community." },
+];
+
+function formatStars(n: number) {
+  return n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n);
+}
 
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const filtered = mockLaunches.filter(() => true);
-
   return (
-    <div>
+    <div className="space-y-16">
       {/* Hero */}
-      <div className="mb-10 rounded-xl border border-black/20 bg-brutal-green-light p-8 shadow-brutal-green">
-        <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
-          🚀 Launch<span className="text-brutal-green">pad</span>
+      <section className="rounded-xl border border-black/20 bg-brutal-green-light p-8 sm:p-12 shadow-brutal-green text-center">
+        <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-black leading-tight">
+          Your Open Source Story,<br />
+          <span className="text-brutal-green">One Portfolio</span>
         </h1>
-        <p className="mt-3 text-lg font-bold text-gray-600">
-          Discover and upvote the latest open source projects from the community.
+        <p className="mt-4 text-lg sm:text-xl font-bold text-gray-600 max-w-2xl mx-auto">
+          Showcase your contributions, discover amazing projects, and connect with maintainers &amp; recruiters — all in one place.
         </p>
-      </div>
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <Link href="/login" className="btn-brutal text-base px-8 py-3">
+            Get Started
+          </Link>
+          <Link href="/explore" className="btn-brutal-outline text-base px-8 py-3">
+            Explore Projects
+          </Link>
+        </div>
+        {/* Mock illustration area */}
+        <div className="mt-10 mx-auto max-w-3xl rounded-xl border border-black/20 bg-white p-6 shadow-brutal">
+          <div className="grid grid-cols-3 gap-3">
+            {["🔗 GitHub", "🦊 GitLab", "🪣 Bitbucket"].map((p) => (
+              <div key={p} className="rounded-lg border border-black/10 bg-brutal-green-pale p-3 text-center text-sm font-extrabold">{p}</div>
+            ))}
+          </div>
+          <div className="mt-3 h-24 rounded-lg border border-black/10 bg-brutal-green-pale flex items-center justify-center text-gray-400 font-black text-sm uppercase">
+            📊 Your Contribution Graph
+          </div>
+        </div>
+      </section>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-5">
-          <FilterTabs
-            tabs={Object.keys(filterDays)}
-            active={activeFilter}
-            onChange={setActiveFilter}
-          />
-
-          {filtered.length === 0 ? (
-            <div className="card-brutal text-center py-16">
-              <p className="text-6xl mb-4">🚀</p>
-              <p className="text-xl font-black uppercase text-gray-400">No launches yet!</p>
+      {/* Popular This Week */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">🔥 Popular This Week</h2>
+          <Link href="/launchpad" className="text-sm font-extrabold text-brutal-green hover:underline uppercase">View All →</Link>
+        </div>
+        <div className="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1">
+          {weeklyTrending.map((launch) => (
+            <div key={launch.id} className="min-w-[280px] max-w-[320px] shrink-0 rounded-xl border border-black/20 bg-white p-5 shadow-brutal transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">🚀</span>
+                <h3 className="font-black uppercase tracking-tight text-black truncate">{launch.project_detail?.name}</h3>
+              </div>
+              <div className="flex flex-wrap gap-1 mb-3">
+                {launch.project_detail?.tech_stack?.map((t) => (
+                  <span key={t} className="rounded border border-black/10 bg-brutal-muted px-2 py-0.5 text-[10px] font-bold text-gray-600">{t}</span>
+                ))}
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-bold text-gray-500">⭐ {formatStars(launch.project_detail?.star_count || 0)}</span>
+                <span className="font-extrabold text-brutal-green">▲ {launch.upvote_count}</span>
+              </div>
             </div>
-          ) : (
-            filtered.map((launch) => (
-              <div
-                key={launch.id}
-                className="rounded-xl border border-black/20 bg-white p-6 shadow-brutal transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-4 flex-1 min-w-0">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-black/20 bg-brutal-green-light text-2xl shadow-brutal-sm">
-                      🚀
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-lg font-black uppercase tracking-tight text-black">
-                        {launch.project_detail?.name}
-                      </h3>
-                      <p className="mt-1 text-sm font-semibold text-gray-600 line-clamp-2">
-                        {launch.description}
-                      </p>
-                      <div className="mt-3 flex flex-wrap items-center gap-2">
-                        <Link href={`/${launch.launched_by.username}`} className="badge-brutal bg-brutal-green-light text-brutal-green-dark hover:bg-brutal-green/10 transition-colors">
-                          <img src={launch.launched_by.avatar_url} alt="" className="h-4 w-4 rounded border border-black/10 mr-1" />
-                          {launch.launched_by.username}
-                        </Link>
-                        <span className="badge-brutal bg-brutal-muted text-gray-500 font-mono">
-                          {timeAgo(launch.launch_date)}
-                        </span>
-                        {launch.seeking_help && (
-                          <span className="badge-brutal bg-brutal-green-accent text-white animate-pulse">
-                            🤝 SEEKING HELP
-                          </span>
-                        )}
-                      </div>
-                      {launch.project_detail?.tech_stack && (
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {launch.project_detail.tech_stack.map((t) => (
-                            <span key={t} className="rounded border border-black/10 bg-brutal-muted px-2 py-0.5 text-[10px] font-bold text-gray-600">{t}</span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <UpvoteButton initialCount={launch.upvote_count} />
+          ))}
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section>
+        <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-center mb-8">How It Works</h2>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {howItWorks.map((step, i) => (
+            <div key={i} className="card-brutal text-center">
+              <div className="text-5xl mb-4">{step.emoji}</div>
+              <div className="badge-brutal bg-brutal-green text-white mx-auto mb-3">Step {i + 1}</div>
+              <h3 className="text-lg font-black uppercase">{step.title}</h3>
+              <p className="mt-2 text-sm font-semibold text-gray-600">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Key Features */}
+      <section>
+        <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-center mb-8">Key Features</h2>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {features.map((f, i) => (
+            <div key={i} className="card-brutal-green">
+              <div className="text-4xl mb-3">{f.emoji}</div>
+              <h3 className="text-lg font-black uppercase">{f.title}</h3>
+              <p className="mt-2 text-sm font-semibold text-gray-600">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Latest Projects */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">🆕 Latest Projects</h2>
+          <Link href="/launchpad" className="text-sm font-extrabold text-brutal-green hover:underline uppercase">View All →</Link>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {latestProjects.map((project) => (
+            <div key={project.id} className="card-brutal">
+              <h3 className="font-black uppercase tracking-tight text-black">{project.name}</h3>
+              <p className="mt-1 text-sm font-semibold text-gray-600 line-clamp-2">{project.description}</p>
+              <div className="mt-3 flex flex-wrap gap-1">
+                {project.tech_stack?.map((t) => (
+                  <span key={t} className="rounded border border-black/10 bg-brutal-muted px-2 py-0.5 text-[10px] font-bold text-gray-600">{t}</span>
+                ))}
+              </div>
+              <div className="mt-3 flex items-center justify-between text-sm">
+                <Link href={`/${project.owner.username}`} className="flex items-center gap-1 font-bold text-brutal-green-dark hover:text-brutal-green">
+                  <img src={project.owner.avatar_url} alt="" className="h-4 w-4 rounded border border-black/10" />
+                  {project.owner.username}
+                </Link>
+                <span className="font-mono text-xs text-gray-400">{timeAgo(project.created_at)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contributor Leaderboard */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">🏆 Top Contributors</h2>
+          <Link href="/explore" className="text-sm font-extrabold text-brutal-green hover:underline uppercase">View Full Leaderboard →</Link>
+        </div>
+        <div className="rounded-xl border border-black/20 bg-white shadow-brutal overflow-hidden">
+          <div className="hidden sm:grid grid-cols-[60px_1fr_120px_1fr] gap-4 px-6 py-3 bg-brutal-green-light border-b border-black/15 text-xs font-extrabold uppercase text-gray-500">
+            <span>Rank</span><span>Developer</span><span>Contributions</span><span>Top Languages</span>
+          </div>
+          {leaderboard.slice(0, 8).map((dev) => (
+            <Link key={dev.id} href={`/${dev.username}`} className="grid sm:grid-cols-[60px_1fr_120px_1fr] gap-4 px-6 py-4 border-b border-black/10 hover:bg-brutal-green-pale transition-colors items-center">
+              <span className="text-2xl font-black text-brutal-green">#{dev.rank}</span>
+              <div className="flex items-center gap-3">
+                <img src={dev.avatar_url} alt="" className="h-9 w-9 rounded-lg border border-black/15 shadow-brutal-sm" />
+                <div>
+                  <div className="font-black text-sm">{dev.username}</div>
+                  <div className="text-xs font-semibold text-gray-400">{dev.location}</div>
                 </div>
               </div>
-            ))
-          )}
-        </div>
-
-        <aside className="space-y-6">
-          <div className="card-brutal-green">
-            <h3 className="font-black text-lg uppercase text-black">🔥 Trending Tech</h3>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["TypeScript", "Rust", "Go", "Python", "React", "Svelte"].map((tech) => (
-                <Link key={tech} href={`/explore?q=${tech}`} className="badge-brutal bg-white text-brutal-green-dark hover:bg-brutal-green-light hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all cursor-pointer">
-                  {tech}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="card-brutal-green">
-            <h3 className="font-black text-lg uppercase text-black">🤝 Seeking Help</h3>
-            <div className="mt-3 space-y-2">
-              {mockLaunches.filter((l) => l.seeking_help).slice(0, 3).map((l) => (
-                <div key={l.id} className="rounded-lg border border-black/15 bg-white p-3 text-sm font-bold">
-                  {l.project_detail?.name}
-                  <span className="text-xs text-gray-400 ml-2">▲ {l.upvote_count}</span>
-                </div>
-              ))}
-            </div>
-            <Link href="/explore" className="btn-brutal mt-5 w-full justify-center">
-              Browse Projects →
+              <div className="font-black text-brutal-green text-lg">{dev.contribution_count}</div>
+              <div className="flex flex-wrap gap-1">
+                {dev.topLanguages.map((lang) => (
+                  <span key={lang} className="rounded border border-black/10 bg-brutal-muted px-2 py-0.5 text-[10px] font-bold text-gray-600">{lang}</span>
+                ))}
+              </div>
             </Link>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="card-brutal-green">
-            <h3 className="font-black text-lg uppercase text-black">📊 Stats</h3>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              {[
-                { label: "Devs", value: "2.4K" },
-                { label: "Projects", value: "890" },
-                { label: "PRs", value: "12K" },
-                { label: "Launches", value: "342" },
-              ].map((stat) => (
-                <div key={stat.label} className="rounded-lg border border-black/15 bg-white p-3 text-center shadow-brutal-sm">
-                  <div className="text-2xl font-black text-brutal-green">{stat.value}</div>
-                  <div className="text-xs font-bold uppercase text-gray-500">{stat.label}</div>
-                </div>
-              ))}
+      {/* Social Proof Stats Bar */}
+      <section className="rounded-xl border border-black/20 bg-brutal-green p-6 shadow-brutal">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {stats.map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="text-3xl sm:text-4xl font-black text-white">{s.value}</div>
+              <div className="text-sm font-extrabold uppercase text-white/80">{s.label}</div>
             </div>
-          </div>
-        </aside>
-      </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="rounded-xl border border-black/20 bg-brutal-green-light p-8 sm:p-12 shadow-brutal-green text-center">
+        <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight">
+          Ready to showcase your<br />open source journey?
+        </h2>
+        <p className="mt-3 text-lg font-bold text-gray-600">
+          Connect GitHub, GitLab, Bitbucket, or add projects manually — it&apos;s free.
+        </p>
+        <Link href="/login" className="btn-brutal text-base px-10 py-3 mt-6 inline-flex">
+          Get Started — It&apos;s Free
+        </Link>
+      </section>
     </div>
   );
 }

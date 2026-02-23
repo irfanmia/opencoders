@@ -294,6 +294,31 @@ export const mockLaunches: Launch[] = [
   },
 ];
 
+// Weekly trending projects (sorted by upvotes/stars for "Popular This Week")
+export const weeklyTrending = [
+  mockLaunches[1], // GitViz - 228
+  mockLaunches[5], // DataPipe - 203
+  mockLaunches[4], // DeFi SDK - 156
+  mockLaunches[0], // DevTracker - 142
+  mockLaunches[2], // CodeReview Bot - 89
+  mockLaunches[3], // SvelteKit Auth - 67
+];
+
+// Leaderboard: top contributors sorted by contribution_count
+export const leaderboard = [...mockUsers]
+  .sort((a, b) => b.contribution_count - a.contribution_count)
+  .map((user, index) => ({
+    rank: index + 1,
+    ...user,
+    topLanguages: user.skills.slice(0, 3).map((s) => s.name),
+  }));
+
+// Latest projects (most recently created)
+export const latestProjects = [...mockProjects]
+  .filter((p) => !p.is_official)
+  .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+  .slice(0, 6);
+
 // Helper functions
 export function getUserByUsername(username: string): MockUser | undefined {
   return mockUsers.find((u) => u.username === username);

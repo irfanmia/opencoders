@@ -16,8 +16,9 @@ export default function Footer() {
           <div>
             <h4 className="font-extrabold uppercase text-xs tracking-wider text-gray-400 mb-3">Platform</h4>
             <div className="space-y-2">
+              <Link href="/" className="block text-sm font-bold text-black hover:text-brutal-green transition-colors">Home</Link>
+              <Link href="/launchpad" className="block text-sm font-bold text-black hover:text-brutal-green transition-colors">Launchpad</Link>
               <Link href="/explore" className="block text-sm font-bold text-black hover:text-brutal-green transition-colors">Explore</Link>
-              <Link href="/" className="block text-sm font-bold text-black hover:text-brutal-green transition-colors">Launchpad</Link>
               <Link href="/login" className="block text-sm font-bold text-black hover:text-brutal-green transition-colors">Sign In</Link>
             </div>
           </div>
