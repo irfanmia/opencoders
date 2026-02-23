@@ -100,7 +100,11 @@ export default function Home() {
                   className="flex-shrink-0 w-[320px] p-5 border-r border-black/10 transition-all duration-300 hover:bg-brutal-green-pale cursor-pointer"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brutal-green-light border border-black/10 text-lg">🚀</div>
+                    {launch.project_detail?.logo ? (
+                      <img src={launch.project_detail.logo} alt="" className="h-10 w-10 rounded-lg border border-black/10 object-contain bg-white p-1" />
+                    ) : (
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brutal-green-light border border-black/10 text-lg">🚀</div>
+                    )}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-black uppercase tracking-tight text-sm text-black truncate">{launch.project_detail?.name}</h3>
                       <div className="flex items-center gap-2 mt-0.5">
@@ -157,7 +161,14 @@ export default function Home() {
           {latestProjects.map((project, i) => (
             <FadeIn key={project.id} delay={i * 100}>
               <div className="card-brutal transition-all duration-300 hover:scale-[1.02]">
-                <h3 className="font-black uppercase tracking-tight text-black">{project.name}</h3>
+                <div className="flex items-center gap-3 mb-2">
+                  {project.logo ? (
+                    <img src={project.logo} alt="" className="h-10 w-10 rounded-lg border border-black/10 object-contain bg-white p-1" />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brutal-green-light border border-black/10 text-lg">📦</div>
+                  )}
+                  <h3 className="font-black uppercase tracking-tight text-black">{project.name}</h3>
+                </div>
                 <p className="mt-1 text-sm font-semibold text-gray-600 line-clamp-2">{project.description}</p>
                 <div className="mt-3 flex flex-wrap gap-1">
                   {project.tech_stack?.map((t) => (

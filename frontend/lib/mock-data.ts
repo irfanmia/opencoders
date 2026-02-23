@@ -105,7 +105,7 @@ export const mockUsers: MockUser[] = [
 export const mockProjects: Project[] = [
   {
     id: 1, name: "Linux Kernel", slug: "linux", is_official: true, owner_org: "torvalds",
-    repo_url: "https://github.com/torvalds/linux", logo: "",
+    repo_url: "https://github.com/torvalds/linux", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
     description: "The Linux kernel source tree — the heart of millions of servers and devices worldwide.",
     tech_stack: ["C", "Assembly", "Makefile"],
     owner: { id: 2, username: "alex_rust", avatar_url: mockUsers[1].avatar_url, portfolio_slug: "alex" },
@@ -113,7 +113,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 2, name: "React", slug: "react", is_official: true, owner_org: "facebook",
-    repo_url: "https://github.com/facebook/react", logo: "",
+    repo_url: "https://github.com/facebook/react", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
     description: "The library for web and native user interfaces. Build declarative UIs with ease.",
     tech_stack: ["JavaScript", "TypeScript", "Flow"],
     owner: { id: 1, username: "sarah_dev", avatar_url: mockUsers[0].avatar_url, portfolio_slug: "sarah" },
@@ -121,7 +121,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 3, name: "Python CPython", slug: "cpython", is_official: true, owner_org: "python",
-    repo_url: "https://github.com/python/cpython", logo: "",
+    repo_url: "https://github.com/python/cpython", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
     description: "The Python programming language reference implementation.",
     tech_stack: ["Python", "C", "Assembly"],
     owner: { id: 3, username: "ml_ninja", avatar_url: mockUsers[2].avatar_url, portfolio_slug: "ml-ninja" },
@@ -129,7 +129,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 4, name: "Kubernetes", slug: "kubernetes", is_official: true, owner_org: "kubernetes",
-    repo_url: "https://github.com/kubernetes/kubernetes", logo: "",
+    repo_url: "https://github.com/kubernetes/kubernetes", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg",
     description: "Production-grade container orchestration for automating deployment, scaling, and management.",
     tech_stack: ["Go", "Shell", "Docker"],
     owner: { id: 4, username: "go_master", avatar_url: mockUsers[3].avatar_url, portfolio_slug: "gomaster" },
@@ -137,7 +137,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 5, name: "DevTracker", slug: "devtracker", is_official: false, owner_org: "",
-    repo_url: "https://github.com/sarah_dev/devtracker", logo: "",
+    repo_url: "https://github.com/sarah_dev/devtracker", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=devtracker&backgroundColor=E8F5E9",
     description: "Track your development habits and boost productivity with smart insights.",
     tech_stack: ["React", "Node.js", "PostgreSQL"],
     owner: { id: 1, username: "sarah_dev", avatar_url: mockUsers[0].avatar_url, portfolio_slug: "sarah" },
@@ -145,7 +145,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 6, name: "GitViz", slug: "gitviz", is_official: false, owner_org: "opencoders",
-    repo_url: "https://github.com/opencoders/gitviz", logo: "",
+    repo_url: "https://github.com/opencoders/gitviz", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=gitviz&backgroundColor=E8F5E9",
     description: "Beautiful, interactive visualizations for your Git history and contribution patterns.",
     tech_stack: ["TypeScript", "D3.js", "Rust"],
     owner: { id: 2, username: "alex_rust", avatar_url: mockUsers[1].avatar_url, portfolio_slug: "alex" },
@@ -153,7 +153,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 7, name: "CodeReview Bot", slug: "codereview-bot", is_official: false, owner_org: "",
-    repo_url: "https://github.com/mlninja/codereview-bot", logo: "",
+    repo_url: "https://github.com/mlninja/codereview-bot", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=codereview&backgroundColor=E8F5E9",
     description: "AI-powered code review assistant that integrates with GitHub PRs.",
     tech_stack: ["Python", "FastAPI", "OpenAI"],
     owner: { id: 3, username: "ml_ninja", avatar_url: mockUsers[2].avatar_url, portfolio_slug: "ml-ninja" },
@@ -161,7 +161,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 8, name: "SvelteKit Auth", slug: "sveltekit-auth", is_official: false, owner_org: "",
-    repo_url: "https://github.com/priyashah/sveltekit-auth", logo: "",
+    repo_url: "https://github.com/priyashah/sveltekit-auth", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg",
     description: "Drop-in authentication for SvelteKit apps. OAuth, magic links, and more.",
     tech_stack: ["Svelte", "TypeScript", "Node.js"],
     owner: { id: 5, username: "frontend_queen", avatar_url: mockUsers[4].avatar_url, portfolio_slug: "fqueen" },
@@ -169,7 +169,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 9, name: "TerraStack", slug: "terrastack", is_official: false, owner_org: "",
-    repo_url: "https://github.com/devopsdan/terrastack", logo: "",
+    repo_url: "https://github.com/devopsdan/terrastack", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg",
     description: "Opinionated Terraform modules for production-ready cloud infrastructure.",
     tech_stack: ["Terraform", "Go", "Python"],
     owner: { id: 6, username: "devops_dan", avatar_url: mockUsers[5].avatar_url, portfolio_slug: "devopsdan" },
@@ -177,7 +177,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 10, name: "DeFi SDK", slug: "defi-sdk", is_official: false, owner_org: "",
-    repo_url: "https://github.com/web3wizard/defi-sdk", logo: "",
+    repo_url: "https://github.com/web3wizard/defi-sdk", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=defisdk&backgroundColor=E8F5E9",
     description: "TypeScript SDK for interacting with major DeFi protocols. Uniswap, Aave, Compound.",
     tech_stack: ["Solidity", "TypeScript", "Ethers.js"],
     owner: { id: 7, username: "web3_wizard", avatar_url: mockUsers[6].avatar_url, portfolio_slug: "web3wiz" },
@@ -185,7 +185,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 11, name: "DataPipe", slug: "datapipe", is_official: false, owner_org: "",
-    repo_url: "https://github.com/datadiana/datapipe", logo: "",
+    repo_url: "https://github.com/datadiana/datapipe", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=datapipe&backgroundColor=E8F5E9",
     description: "Stream processing framework built on Apache Spark for real-time data pipelines.",
     tech_stack: ["Scala", "Python", "Spark"],
     owner: { id: 8, username: "data_diana", avatar_url: mockUsers[7].avatar_url, portfolio_slug: "datadiana" },
@@ -193,7 +193,7 @@ export const mockProjects: Project[] = [
   },
   {
     id: 12, name: "CrossApp", slug: "crossapp", is_official: false, owner_org: "",
-    repo_url: "https://github.com/mobilemike/crossapp", logo: "",
+    repo_url: "https://github.com/mobilemike/crossapp", logo: "https://api.dicebear.com/7.x/shapes/svg?seed=crossapp&backgroundColor=E8F5E9",
     description: "Cross-platform UI components that look native on iOS and Android.",
     tech_stack: ["React Native", "TypeScript", "Swift", "Kotlin"],
     owner: { id: 9, username: "mobile_mike", avatar_url: mockUsers[8].avatar_url, portfolio_slug: "mobilemike" },
