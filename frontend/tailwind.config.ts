@@ -15,7 +15,7 @@ const config: Config = {
         section: "#F9FAFB",
       },
       fontFamily: {
-        heading: ["'Raleway'", "sans-serif"],
+        heading: ["'Space Grotesk'", "sans-serif"],
         body: ["Inter", "system-ui", "sans-serif"],
       },
     },
