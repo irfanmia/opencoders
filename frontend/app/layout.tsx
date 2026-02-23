@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="mx-auto w-[75%] py-8 flex-1">
+        <main className="mx-auto w-full max-w-[75vw] px-4 py-8 flex-1">
           {children}
         </main>
         <Footer />
