@@ -1,8 +1,9 @@
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { weeklyTrending, latestProjects, leaderboard, timeAgo } from "@/lib/mock-data";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import { timeAgo } from "@/lib/utils";
 
 const stats = [
   { label: "Developers", value: "1,200+" },
@@ -35,6 +36,24 @@ function FadeIn({ children, className = "", delay = 0 }: { children: React.React
 }
 
 export default function Home() {
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [weeklyTrending, setWeeklyTrending] = useState<any[]>([]);
+  const [latestProjects, setLatestProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/leaderboard').then(r => r.json()).then(setLeaderboard).catch(console.error);
+    fetch('/api/launches').then(r => r.json()).then((launches: any[]) => {
+      setWeeklyTrending(launches.sort((a: any, b: any) => b.upvote_count - a.upvote_count).slice(0, 6));
+    }).catch(console.error);
+    fetch('/api/projects').then(r => r.json()).then((projects: any[]) => {
+      setLatestProjects(
+        projects
+          .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+          .slice(0, 6)
+      );
+    }).catch(console.error);
+  }, []);
+
   const top5 = leaderboard.slice(0, 5);
 
   return (
@@ -66,7 +85,7 @@ export default function Home() {
             <h2 className="text-base font-semibold text-gray-900">🏆 Top Contributors</h2>
             <Link href="/explore" className="text-xs font-medium text-primary hover:underline">View All →</Link>
           </div>
-          {top5.map((dev, i) => (
+          {top5.map((dev: any, i: number) => (
             <Link
               key={dev.id}
               href={`/${dev.username}`}
@@ -94,7 +113,7 @@ export default function Home() {
           </div>
           <div className="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-100 group">
             <div className="flex animate-marquee group-hover:[animation-play-state:paused]">
-              {[...weeklyTrending, ...weeklyTrending].map((launch, idx) => (
+              {[...weeklyTrending, ...weeklyTrending].map((launch: any, idx: number) => (
                 <div
                   key={`${launch.id}-${idx}`}
                   className="flex-shrink-0 w-[320px] p-5 border-r border-gray-100 transition-colors duration-200 hover:bg-section cursor-pointer"
@@ -115,7 +134,7 @@ export default function Home() {
                   </div>
                   <p className="text-xs font-normal text-gray-500 line-clamp-2 mb-3 leading-relaxed">{launch.description}</p>
                   <div className="flex flex-wrap gap-1 mb-3">
-                    {launch.project_detail?.tech_stack?.slice(0, 3).map((t) => (
+                    {launch.project_detail?.tech_stack?.slice(0, 3).map((t: string) => (
                       <span key={t} className="rounded-full border border-gray-200 bg-section px-2.5 py-0.5 text-[10px] font-medium text-gray-600">{t}</span>
                     ))}
                   </div>
@@ -156,7 +175,7 @@ export default function Home() {
           </div>
         </FadeIn>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {latestProjects.map((project, i) => (
+          {latestProjects.map((project: any, i: number) => (
             <FadeIn key={project.id} delay={i * 100}>
               <div className="card-clean">
                 <div className="flex items-center gap-3 mb-2">
@@ -169,7 +188,7 @@ export default function Home() {
                 </div>
                 <p className="mt-1 text-sm font-normal text-gray-500 line-clamp-2">{project.description}</p>
                 <div className="mt-3 flex flex-wrap gap-1">
-                  {project.tech_stack?.map((t) => (
+                  {project.tech_stack?.map((t: string) => (
                     <span key={t} className="rounded-full border border-gray-200 bg-section px-2 py-0.5 text-[10px] font-medium text-gray-600">{t}</span>
                   ))}
                 </div>

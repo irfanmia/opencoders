@@ -1,8 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getUserByUsername, getContributionsByUser, getProjectsByUser, mockUsers } from "@/lib/mock-data";
-import ProfileHeader from "@/components/ProfileHeader";
 import SkillBar from "@/components/SkillBar";
 import ActivityTimeline from "@/components/ActivityTimeline";
 import StatsRow from "@/components/StatsRow";
@@ -13,18 +11,73 @@ export default function ProfilePage() {
   const params = useParams();
   const username = params.username as string;
   const [starred, setStarred] = useState(false);
+  const [mockUser, setMockUser] = useState<any>(null);
+  const [contributions, setContributions] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockUser = getUserByUsername(username) || {
-    ...mockUsers[0],
-    username,
-    avatar_url: `https://ui-avatars.com/api/?name=${username}&background=2BA24C&color=fff&bold=true&size=128`,
-  };
+  useEffect(() => {
+    async function load() {
+      try {
+        const [userRes, contribRes, projectsRes] = await Promise.all([
+          fetch(`/api/users/${username}`),
+          fetch(`/api/contributions?userId=`), // will filter after we get user
+          fetch(`/api/projects`),
+        ]);
 
-  const contributions = getContributionsByUser(mockUser.id);
-  const projects = getProjectsByUser(mockUser.id);
-  const pinnedContributions = contributions.filter((c) => c.verification_status === "VERIFIED").slice(0, 4);
-  const uniqueProjects = new Set(contributions.map((c) => c.project)).size;
-  const uniqueLangs = new Set(mockUser.skills?.map((s) => s.name) || []).size;
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          setMockUser(userData);
+
+          // Now fetch contributions for this user
+          const userContribRes = await fetch(`/api/contributions?userId=${userData.id}`);
+          if (userContribRes.ok) {
+            setContributions(await userContribRes.json());
+          }
+
+          // Filter projects by owner
+          if (projectsRes.ok) {
+            const allProjects = await projectsRes.json();
+            setProjects(allProjects.filter((p: any) => p.owner.id === userData.id));
+          }
+        } else {
+          // User not found, create placeholder
+          setMockUser({
+            id: 0,
+            username,
+            avatar_url: `https://ui-avatars.com/api/?name=${username}&background=2BA24C&color=fff&bold=true&size=128`,
+            bio: '',
+            location: '',
+            website: '',
+            github_url: '',
+            is_bot_verified: false,
+            created_at: new Date().toISOString(),
+            followers: 0,
+            following: 0,
+            skills: [],
+            contribution_count: 0,
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [username]);
+
+  if (loading || !mockUser) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="text-lg text-gray-400">Loading profile...</div>
+      </div>
+    );
+  }
+
+  const pinnedContributions = contributions.filter((c: any) => c.verification_status === "VERIFIED").slice(0, 4);
+  const uniqueProjects = new Set(contributions.map((c: any) => c.project)).size;
+  const uniqueLangs = new Set(mockUser.skills?.map((s: any) => s.name) || []).size;
 
   return (
     <div>
@@ -103,7 +156,7 @@ export default function ProfilePage() {
             </h2>
             <div className="space-y-3">
               {pinnedContributions.length > 0 ? (
-                pinnedContributions.map((c) => (
+                pinnedContributions.map((c: any) => (
                   <ContributionCard key={c.id} contribution={c} />
                 ))
               ) : (
@@ -146,7 +199,7 @@ export default function ProfilePage() {
             </h2>
             {projects.length > 0 ? (
               <div className="space-y-4">
-                {projects.map((p) => (
+                {projects.map((p: any) => (
                   <ProjectCard key={p.id} project={p} />
                 ))}
               </div>

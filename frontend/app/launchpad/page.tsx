@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { mockLaunches, timeAgo } from "@/lib/mock-data";
+import { timeAgo } from "@/lib/utils";
 import UpvoteButton from "@/components/UpvoteButton";
 import FilterTabs from "@/components/FilterTabs";
 
@@ -14,8 +14,13 @@ const filterDays: Record<string, number> = {
 
 export default function LaunchpadPage() {
   const [activeFilter, setActiveFilter] = useState("All Time");
+  const [allLaunches, setAllLaunches] = useState<any[]>([]);
 
-  const filtered = mockLaunches.filter(() => true);
+  useEffect(() => {
+    fetch('/api/launches').then(r => r.json()).then(setAllLaunches).catch(console.error);
+  }, []);
+
+  const filtered = allLaunches.filter(() => true);
 
   return (
     <div>
@@ -43,7 +48,7 @@ export default function LaunchpadPage() {
               <p className="text-xl font-semibold text-gray-400">No launches yet!</p>
             </div>
           ) : (
-            filtered.map((launch) => (
+            filtered.map((launch: any) => (
               <div
                 key={launch.id}
                 className="rounded-xl bg-white p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
@@ -76,7 +81,7 @@ export default function LaunchpadPage() {
                       </div>
                       {launch.project_detail?.tech_stack && (
                         <div className="mt-2 flex flex-wrap gap-1">
-                          {launch.project_detail.tech_stack.map((t) => (
+                          {launch.project_detail.tech_stack.map((t: string) => (
                             <span key={t} className="rounded-full border border-gray-200 bg-section px-2 py-0.5 text-[10px] font-medium text-gray-600">{t}</span>
                           ))}
                         </div>
@@ -105,7 +110,7 @@ export default function LaunchpadPage() {
           <div className="card-clean-green">
             <h3 className="font-semibold text-lg text-gray-900">🤝 Seeking Help</h3>
             <div className="mt-3 space-y-2">
-              {mockLaunches.filter((l) => l.seeking_help).slice(0, 3).map((l) => (
+              {allLaunches.filter((l: any) => l.seeking_help).slice(0, 3).map((l: any) => (
                 <div key={l.id} className="rounded-lg border border-gray-200 bg-white p-3 text-sm font-medium text-gray-700">
                   {l.project_detail?.name}
                   <span className="text-xs text-gray-400 ml-2">▲ {l.upvote_count}</span>
