@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-      <div className="mx-auto flex w-full max-w-[75vw] items-center justify-between py-4">
+      <div className="mx-auto flex w-full px-4 lg:px-0 lg:max-w-[75vw] items-center justify-between py-4">
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-xl font-bold text-gray-900">
             <span className="text-primary">OPEN</span>CODERS

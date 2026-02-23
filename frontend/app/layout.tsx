@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col font-body">
         <SessionProvider>
           <Navbar />
-          <main className="mx-auto w-full max-w-[75vw] px-4 py-8 flex-1">
+          <main className="mx-auto w-full px-4 py-8 flex-1 lg:max-w-[75vw]">
             {children}
           </main>
           <Footer />
