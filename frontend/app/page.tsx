@@ -43,7 +43,15 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/leaderboard').then(r => r.json()).then(setLeaderboard).catch(console.error);
     fetch('/api/launches').then(r => r.json()).then((launches: any[]) => {
-      setWeeklyTrending(launches.sort((a: any, b: any) => b.upvote_count - a.upvote_count).slice(0, 6));
+      // Prioritize real user projects, then sort by upvotes
+      setWeeklyTrending(
+        launches.sort((a: any, b: any) => {
+          const aReal = a.launched_by?.github_id ? 1 : 0;
+          const bReal = b.launched_by?.github_id ? 1 : 0;
+          if (aReal !== bReal) return bReal - aReal;
+          return (b.upvote_count || 0) - (a.upvote_count || 0);
+        }).slice(0, 8)
+      );
     }).catch(console.error);
     fetch('/api/projects').then(r => r.json()).then((projects: any[]) => {
       setLatestProjects(

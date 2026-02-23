@@ -20,7 +20,15 @@ export default function LaunchpadPage() {
     fetch('/api/launches').then(r => r.json()).then(setAllLaunches).catch(console.error);
   }, []);
 
-  const filtered = allLaunches.filter(() => true);
+  const now = new Date();
+  const days = filterDays[activeFilter] || 9999;
+  const filtered = allLaunches
+    .filter((l: any) => {
+      const launched = new Date(l.launch_date || l.created_at);
+      const diff = (now.getTime() - launched.getTime()) / (1000 * 60 * 60 * 24);
+      return diff <= days;
+    })
+    .sort((a: any, b: any) => (b.upvote_count || 0) - (a.upvote_count || 0));
 
   return (
     <div>

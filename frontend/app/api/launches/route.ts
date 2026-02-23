@@ -27,6 +27,7 @@ export async function GET() {
         projectCreatedAt: projects.createdAt,
         launcherUsername: users.username,
         launcherAvatar: users.avatarUrl,
+        launcherGithubId: users.githubId,
       })
       .from(launches)
       .leftJoin(projects, eq(launches.projectId, projects.id))
@@ -50,7 +51,7 @@ export async function GET() {
         star_count: l.projectStarCount,
         created_at: l.projectCreatedAt?.toISOString(),
       },
-      launched_by: { id: l.launchedById, username: l.launcherUsername, avatar_url: l.launcherAvatar },
+      launched_by: { id: l.launchedById, username: l.launcherUsername, avatar_url: l.launcherAvatar, github_id: l.launcherGithubId },
       launch_date: l.launchedAt?.toISOString(),
       upvote_count: l.upvoteCount,
       seeking_help: false,
