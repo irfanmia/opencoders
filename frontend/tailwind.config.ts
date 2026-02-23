@@ -16,7 +16,7 @@ const config: Config = {
       },
       fontFamily: {
         heading: ["'Space Grotesk'", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
+        body: ["'Space Grotesk'", "sans-serif"],
       },
     },
   },
