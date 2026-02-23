@@ -132,7 +132,7 @@ export default function Home() {
 
       {/* How It Works — full-width dark section */}
       <FadeIn>
-        <section className="-mx-4 px-4 py-14 rounded-2xl bg-gray-900">
+        <section className="-mx-4 px-4 py-14 rounded-2xl bg-[#0a3d1a]">
           <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-center mb-10 text-white">How It Works</h2>
           <div className="grid sm:grid-cols-3 gap-10 max-w-4xl mx-auto">
             {howItWorks.map((step, i) => (
