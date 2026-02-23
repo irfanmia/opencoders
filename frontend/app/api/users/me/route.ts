@@ -30,7 +30,7 @@ export async function PATCH(request: Request) {
   }
 
   const body = await request.json();
-  const allowedFields = ["name", "bio", "location", "website", "username"];
+  const allowedFields = ["name", "bio", "location", "website", "username", "githubUsername", "title", "skills", "skillLevels", "followers", "following", "avatarUrl"];
   const updates: Record<string, any> = { updatedAt: new Date() };
 
   for (const field of allowedFields) {

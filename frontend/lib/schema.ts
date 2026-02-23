@@ -28,6 +28,11 @@ export const users = pgTable('users', {
   githubUsername: text('github_username'),
   gitlabUsername: text('gitlab_username'),
   githubId: text('github_id'),
+  title: text('title'),
+  skills: text('skills').array(),
+  skillLevels: text('skill_levels').array(),
+  followers: integer('followers').default(0),
+  following: integer('following').default(0),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

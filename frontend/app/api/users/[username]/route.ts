@@ -19,6 +19,11 @@ export async function GET(
         website: users.website,
         githubId: users.githubId,
         githubUsername: users.githubUsername,
+        title: users.title,
+        skills: users.skills,
+        skillLevels: users.skillLevels,
+        followers: users.followers,
+        following: users.following,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
         contributionCount: sql<number>`(SELECT COUNT(*) FROM contributions WHERE contributions.user_id = ${users.id})`,
@@ -47,9 +52,13 @@ export async function GET(
       updated_at: u.updatedAt?.toISOString(),
       contribution_count: Number(u.contributionCount),
       github_url: u.githubUsername ? `https://github.com/${u.githubUsername}` : null,
-      followers: 0,
-      following: 0,
-      skills: [],
+      title: u.title,
+      followers: u.followers ?? 0,
+      following: u.following ?? 0,
+      skills: (u.skills || []).map((name: string, i: number) => ({
+        name,
+        level: Number(u.skillLevels?.[i] ?? 50),
+      })),
     });
   } catch (error) {
     console.error('Error fetching user:', error);
