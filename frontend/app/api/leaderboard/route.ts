@@ -19,7 +19,11 @@ export async function GET() {
         contributionCount: sql<number>`(SELECT COUNT(*) FROM contributions WHERE contributions.user_id = ${users.id})`,
       })
       .from(users)
-      .orderBy(desc(sql`(SELECT COUNT(*) FROM contributions WHERE contributions.user_id = ${users.id})`));
+      .orderBy(
+        // Real users (with github_id) first, then by contribution count
+        sql`CASE WHEN ${users.githubId} IS NOT NULL THEN 0 ELSE 1 END`,
+        desc(sql`(SELECT COUNT(*) FROM contributions WHERE contributions.user_id = ${users.id})`)
+      );
 
     const mapped = result.map((u, i) => ({
       rank: i + 1,
