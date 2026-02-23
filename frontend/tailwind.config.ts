@@ -15,7 +15,7 @@ const config: Config = {
         section: "#F9FAFB",
       },
       fontFamily: {
-        heading: ["'DM Serif Display'", "serif"],
+        heading: ["'Raleway'", "sans-serif"],
         body: ["Inter", "system-ui", "sans-serif"],
       },
     },
