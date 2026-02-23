@@ -130,24 +130,22 @@ export default function Home() {
         </section>
       </FadeIn>
 
-      {/* How It Works */}
-      <section>
-        <FadeIn>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-center mb-8">How It Works</h2>
-        </FadeIn>
-        <div className="grid sm:grid-cols-3 gap-6">
-          {howItWorks.map((step, i) => (
-            <FadeIn key={i} delay={i * 150}>
-              <div className="card-brutal text-center transition-all duration-300 hover:scale-[1.02]">
+      {/* How It Works — full-width dark section */}
+      <FadeIn>
+        <section className="-mx-4 px-4 py-14 rounded-2xl bg-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-center mb-10 text-white">How It Works</h2>
+          <div className="grid sm:grid-cols-3 gap-10 max-w-4xl mx-auto">
+            {howItWorks.map((step, i) => (
+              <div key={i} className="text-center">
                 <div className="text-5xl mb-4">{step.emoji}</div>
-                <div className="badge-brutal bg-brutal-green text-white mx-auto mb-3">Step {i + 1}</div>
-                <h3 className="text-lg font-black uppercase">{step.title}</h3>
-                <p className="mt-2 text-sm font-semibold text-gray-600">{step.desc}</p>
+                <span className="inline-block bg-brutal-green text-white text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Step {i + 1}</span>
+                <h3 className="text-lg font-black uppercase text-white">{step.title}</h3>
+                <p className="mt-2 text-sm font-semibold text-gray-400">{step.desc}</p>
               </div>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </FadeIn>
 
       {/* Latest Projects */}
       <section>
