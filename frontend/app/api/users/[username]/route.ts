@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { users } from '@/lib/schema';
-import { eq, sql } from 'drizzle-orm';
+import { users, stars, follows } from '@/lib/schema';
+import { eq, and, sql } from 'drizzle-orm';
 
 export async function GET(
   request: Request,
   { params }: { params: { username: string } }
 ) {
   try {
+    const session = await auth();
+
     const result = await db
       .select({
         id: users.id,
@@ -27,6 +30,7 @@ export async function GET(
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
         contributionCount: sql<number>`(SELECT COUNT(*) FROM contributions WHERE contributions.user_id = ${users.id})`,
+        starCount: sql<number>`(SELECT COUNT(*) FROM stars WHERE stars.target_type = 'user' AND stars.target_id = ${users.id})`,
       })
       .from(users)
       .where(eq(users.username, params.username))
@@ -37,6 +41,24 @@ export async function GET(
     }
 
     const u = result[0];
+
+    let isFollowing = false;
+    let isStarred = false;
+
+    if (session?.user?.id) {
+      const currentUserId = Number(session.user.id);
+      const [followCheck, starCheck] = await Promise.all([
+        db.select({ id: follows.id }).from(follows)
+          .where(and(eq(follows.followerId, currentUserId), eq(follows.followingId, u.id)))
+          .limit(1),
+        db.select({ id: stars.id }).from(stars)
+          .where(and(eq(stars.userId, currentUserId), eq(stars.targetType, 'user'), eq(stars.targetId, u.id)))
+          .limit(1),
+      ]);
+      isFollowing = followCheck.length > 0;
+      isStarred = starCheck.length > 0;
+    }
+
     return NextResponse.json({
       id: u.id,
       username: u.username,
@@ -55,6 +77,9 @@ export async function GET(
       title: u.title,
       followers: u.followers ?? 0,
       following: u.following ?? 0,
+      starCount: Number(u.starCount),
+      isFollowing,
+      isStarred,
       skills: (u.skills || []).map((name: string, i: number) => ({
         name,
         level: Number(u.skillLevels?.[i] ?? 50),

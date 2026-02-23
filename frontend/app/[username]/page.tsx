@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import SkillBar from "@/components/SkillBar";
 import ActivityTimeline from "@/components/ActivityTimeline";
@@ -15,9 +15,14 @@ interface Skill {
 
 export default function ProfilePage() {
   const params = useParams();
+  const router = useRouter();
   const username = params.username as string;
   const { data: session } = useSession();
   const [starred, setStarred] = useState(false);
+  const [starCount, setStarCount] = useState(0);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const [mockUser, setMockUser] = useState<any>(null);
   const [contributions, setContributions] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
@@ -59,6 +64,11 @@ export default function ProfilePage() {
         if (userRes.ok) {
           const userData = await userRes.json();
           setMockUser(userData);
+          setStarred(userData.isStarred ?? false);
+          setStarCount(userData.starCount ?? 0);
+          setIsFollowing(userData.isFollowing ?? false);
+          setFollowerCount(userData.followers ?? 0);
+          setFollowingCount(userData.following ?? 0);
 
           const userContribRes = await fetch(`/api/contributions?userId=${userData.id}`);
           if (userContribRes.ok) {
@@ -368,13 +378,43 @@ export default function ProfilePage() {
                     <span className="badge-clean bg-primary text-white">✓ Verified</span>
                   )}
                   <button
-                    onClick={() => setStarred((s) => !s)}
+                    onClick={async () => {
+                      if (!session) { router.push('/login'); return; }
+                      try {
+                        const res = await fetch(`/api/users/${username}/star`, { method: 'POST' });
+                        if (res.ok) {
+                          const data = await res.json();
+                          setStarred(data.starred);
+                          setStarCount(data.starCount);
+                        }
+                      } catch (e) { console.error(e); }
+                    }}
                     className={`badge-clean transition-colors cursor-pointer ${
                       starred ? "bg-primary text-white" : "bg-section text-gray-500 hover:bg-primary-light"
                     }`}
                   >
-                    {starred ? "⭐ Starred" : "☆ Star"}
+                    {starred ? "⭐" : "☆"} {starCount > 0 ? starCount : "Star"}
                   </button>
+                  {!isOwner && (
+                    <button
+                      onClick={async () => {
+                        if (!session) { router.push('/login'); return; }
+                        try {
+                          const res = await fetch(`/api/users/${username}/follow`, { method: 'POST' });
+                          if (res.ok) {
+                            const data = await res.json();
+                            setIsFollowing(data.following);
+                            setFollowerCount(data.followerCount);
+                          }
+                        } catch (e) { console.error(e); }
+                      }}
+                      className={`badge-clean transition-colors cursor-pointer ${
+                        isFollowing ? "bg-[#2BA24C] text-white" : "bg-section text-gray-500 hover:bg-primary-light"
+                      }`}
+                    >
+                      {isFollowing ? "✓ Following" : "Follow"}
+                    </button>
+                  )}
                 </div>
 
                 {mockUser.title && (
@@ -405,8 +445,8 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="mt-3 flex gap-4 justify-center sm:justify-start text-sm">
-                  <span><strong className="text-gray-900">{mockUser.followers}</strong> <span className="text-gray-400">followers</span></span>
-                  <span><strong className="text-gray-900">{mockUser.following}</strong> <span className="text-gray-400">following</span></span>
+                  <span><strong className="text-gray-900">{followerCount}</strong> <span className="text-gray-400">followers</span></span>
+                  <span><strong className="text-gray-900">{followingCount}</strong> <span className="text-gray-400">following</span></span>
                 </div>
               </>
             )}
@@ -420,7 +460,7 @@ export default function ProfilePage() {
           { label: "Contributions", value: mockUser.contribution_count || contributions.length },
           { label: "Projects", value: uniqueProjects },
           { label: "Languages", value: uniqueLangs },
-          { label: "Followers", value: mockUser.followers },
+          { label: "Followers", value: followerCount },
         ]} />
       </div>
 

@@ -102,13 +102,30 @@ export const upvotes = pgTable('upvotes', {
   unique('upvotes_user_launch_unique').on(t.userId, t.launchId),
 ]);
 
+// Follows
+export const follows = pgTable('follows', {
+  id: serial('id').primaryKey(),
+  followerId: integer('follower_id').references(() => users.id).notNull(),
+  followingId: integer('following_id').references(() => users.id).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (t) => [
+  unique('follows_follower_following_unique').on(t.followerId, t.followingId),
+]);
+
 // Relations
+export const followsRelations = relations(follows, ({ one }) => ({
+  follower: one(users, { fields: [follows.followerId], references: [users.id], relationName: 'followerRelation' }),
+  following: one(users, { fields: [follows.followingId], references: [users.id], relationName: 'followingRelation' }),
+}));
+
 export const usersRelations = relations(users, ({ many }) => ({
   projects: many(projects),
   contributions: many(contributions),
   launches: many(launches),
   stars: many(stars),
   upvotes: many(upvotes),
+  followersRel: many(follows, { relationName: 'followingRelation' }),
+  followingRel: many(follows, { relationName: 'followerRelation' }),
 }));
 
 export const projectsRelations = relations(projects, ({ one, many }) => ({
