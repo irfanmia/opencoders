@@ -97,20 +97,27 @@ export default function Home() {
               {[...weeklyTrending, ...weeklyTrending].map((launch, idx) => (
                 <div
                   key={`${launch.id}-${idx}`}
-                  className="flex-shrink-0 w-[280px] p-4 border-r border-black/10 transition-all duration-300 hover:scale-[1.02] hover:bg-brutal-green-pale"
+                  className="flex-shrink-0 w-[320px] p-5 border-r border-black/10 transition-all duration-300 hover:bg-brutal-green-pale cursor-pointer"
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xl">🚀</span>
-                    <h3 className="font-black uppercase tracking-tight text-sm text-black truncate">{launch.project_detail?.name}</h3>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brutal-green-light border border-black/10 text-lg">🚀</div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-black uppercase tracking-tight text-sm text-black truncate">{launch.project_detail?.name}</h3>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <img src={launch.launched_by.avatar_url} alt="" className="h-4 w-4 rounded-full border border-black/10" />
+                        <span className="text-[11px] font-bold text-gray-400">{launch.launched_by.username}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {launch.project_detail?.tech_stack?.slice(0, 2).map((t) => (
-                      <span key={t} className="rounded border border-black/10 bg-brutal-muted px-2 py-0.5 text-[10px] font-bold text-gray-600">{t}</span>
+                  <p className="text-xs font-semibold text-gray-500 line-clamp-2 mb-3 leading-relaxed">{launch.description}</p>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {launch.project_detail?.tech_stack?.slice(0, 3).map((t) => (
+                      <span key={t} className="rounded-full border border-black/10 bg-brutal-muted px-2.5 py-0.5 text-[10px] font-bold text-gray-600">{t}</span>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-gray-500">⭐ {formatStars(launch.project_detail?.star_count || 0)}</span>
-                    <span className="font-extrabold text-brutal-green">▲ {launch.upvote_count}</span>
+                  <div className="flex items-center justify-between text-xs pt-2 border-t border-black/5">
+                    <span className="font-bold text-gray-400">⭐ {formatStars(launch.project_detail?.star_count || 0)}</span>
+                    <span className="font-black text-brutal-green bg-brutal-green-light rounded-full px-3 py-1 text-xs">▲ {launch.upvote_count}</span>
                   </div>
                 </div>
               ))}
