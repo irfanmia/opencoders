@@ -13,7 +13,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 1, username: "sarah_dev", github_id: "12345",
     bio: "Full-stack developer passionate about open source. Building tools that make developers' lives easier. 🚀",
-    portfolio_slug: "sarah", avatar_url: "https://ui-avatars.com/api/?name=Sarah+Chen&background=a3e635&color=000&bold=true&size=128",
+    portfolio_slug: "sarah", avatar_url: "https://i.pravatar.cc/150?img=47",
     is_bot_verified: true, location: "San Francisco, CA", website: "https://sarah.dev",
     created_at: "2023-06-15T10:00:00Z", updated_at: "2024-01-20T10:00:00Z",
     followers: 842, following: 156,
@@ -23,7 +23,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 2, username: "alex_rust", github_id: "23456",
     bio: "Systems programmer & Rust evangelist. Contributing to the Linux kernel in my spare time. 🦀",
-    portfolio_slug: "alex", avatar_url: "https://ui-avatars.com/api/?name=Alex+Rust&background=f472b6&color=000&bold=true&size=128",
+    portfolio_slug: "alex", avatar_url: "https://i.pravatar.cc/150?img=12",
     is_bot_verified: true, location: "Berlin, Germany", website: "https://alexrust.dev",
     created_at: "2023-03-10T10:00:00Z", updated_at: "2024-01-18T10:00:00Z",
     followers: 1203, following: 89,
@@ -33,7 +33,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 3, username: "ml_ninja", github_id: "34567",
     bio: "ML engineer @ startup. Open source AI tools for everyone. PyTorch contributor.",
-    portfolio_slug: "ml-ninja", avatar_url: "https://ui-avatars.com/api/?name=Maya+Lin&background=60a5fa&color=fff&bold=true&size=128",
+    portfolio_slug: "ml-ninja", avatar_url: "https://i.pravatar.cc/150?img=25",
     is_bot_verified: true, location: "Tokyo, Japan", website: "https://mlninja.io",
     created_at: "2023-08-01T10:00:00Z", updated_at: "2024-01-19T10:00:00Z",
     followers: 2100, following: 210,
@@ -43,7 +43,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 4, username: "go_master", github_id: "45678",
     bio: "Backend architect. Building distributed systems with Go. Kubernetes contributor.",
-    portfolio_slug: "gomaster", avatar_url: "https://ui-avatars.com/api/?name=Go+Master&background=facc15&color=000&bold=true&size=128",
+    portfolio_slug: "gomaster", avatar_url: "https://i.pravatar.cc/150?img=53",
     is_bot_verified: false, location: "Austin, TX", website: "https://gomaster.dev",
     created_at: "2023-05-20T10:00:00Z", updated_at: "2024-01-15T10:00:00Z",
     followers: 567, following: 134,
@@ -53,7 +53,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 5, username: "frontend_queen", github_id: "56789",
     bio: "Design engineer. Making the web beautiful, one component at a time. Svelte core team. 💅",
-    portfolio_slug: "fqueen", avatar_url: "https://ui-avatars.com/api/?name=Priya+Shah&background=fb923c&color=000&bold=true&size=128",
+    portfolio_slug: "fqueen", avatar_url: "https://i.pravatar.cc/150?img=45",
     is_bot_verified: true, location: "London, UK", website: "https://priyashah.design",
     created_at: "2023-04-12T10:00:00Z", updated_at: "2024-01-20T10:00:00Z",
     followers: 1560, following: 320,
@@ -63,7 +63,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 6, username: "devops_dan", github_id: "67890",
     bio: "SRE by day, open source contributor by night. Terraform and Ansible wizard. 🧙",
-    portfolio_slug: "devopsdan", avatar_url: "https://ui-avatars.com/api/?name=Dan+Ops&background=22d3ee&color=000&bold=true&size=128",
+    portfolio_slug: "devopsdan", avatar_url: "https://i.pravatar.cc/150?img=33",
     is_bot_verified: false, location: "Toronto, Canada", website: "https://devopsdan.com",
     created_at: "2023-09-01T10:00:00Z", updated_at: "2024-01-17T10:00:00Z",
     followers: 389, following: 201,
@@ -73,7 +73,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 7, username: "web3_wizard", github_id: "78901",
     bio: "Solidity dev building the decentralized future. Ethereum core contributor.",
-    portfolio_slug: "web3wiz", avatar_url: "https://ui-avatars.com/api/?name=Wei+Zhang&background=a3e635&color=000&bold=true&size=128",
+    portfolio_slug: "web3wiz", avatar_url: "https://i.pravatar.cc/150?img=14",
     is_bot_verified: true, location: "Singapore", website: "https://web3wizard.eth",
     created_at: "2023-07-15T10:00:00Z", updated_at: "2024-01-16T10:00:00Z",
     followers: 945, following: 78,
@@ -83,7 +83,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 8, username: "data_diana", github_id: "89012",
     bio: "Data scientist turned engineer. Apache Spark contributor. Love crunching numbers at scale.",
-    portfolio_slug: "datadiana", avatar_url: "https://ui-avatars.com/api/?name=Diana+Data&background=f472b6&color=000&bold=true&size=128",
+    portfolio_slug: "datadiana", avatar_url: "https://i.pravatar.cc/150?img=44",
     is_bot_verified: true, location: "New York, NY", website: "https://datadiana.io",
     created_at: "2023-02-28T10:00:00Z", updated_at: "2024-01-14T10:00:00Z",
     followers: 1890, following: 145,
@@ -93,7 +93,7 @@ export const mockUsers: MockUser[] = [
   {
     id: 9, username: "mobile_mike", github_id: "90123",
     bio: "React Native & Flutter developer. Making mobile apps that don't suck.",
-    portfolio_slug: "mobilemike", avatar_url: "https://ui-avatars.com/api/?name=Mike+Mobile&background=60a5fa&color=fff&bold=true&size=128",
+    portfolio_slug: "mobilemike", avatar_url: "https://i.pravatar.cc/150?img=51",
     is_bot_verified: false, location: "Melbourne, Australia", website: "https://mobilemike.dev",
     created_at: "2023-10-05T10:00:00Z", updated_at: "2024-01-13T10:00:00Z",
     followers: 234, following: 167,
