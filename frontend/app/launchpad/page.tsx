@@ -55,9 +55,13 @@ export default function LaunchpadPage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4 flex-1 min-w-0">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary-light border border-green-100 text-2xl">
-                      🚀
-                    </div>
+                    {launch.project_detail?.logo ? (
+                      <img src={launch.project_detail.logo} alt="" className="h-14 w-14 shrink-0 rounded-xl border border-gray-200 object-contain bg-white p-2" />
+                    ) : (
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary-light border border-green-100 text-2xl">
+                        🚀
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <h3 className="text-lg font-semibold text-gray-900">
                         {launch.project_detail?.name}
