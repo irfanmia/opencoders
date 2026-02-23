@@ -3,14 +3,14 @@ import Link from "next/link";
 export default function LoginPage() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
-      <div className="card-brutal-lime max-w-md w-full text-center">
-        <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-xl border-3 border-black bg-brutal-yellow text-5xl shadow-brutal">
+      <div className="card-brutal-green max-w-md w-full text-center">
+        <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-xl border border-black/20 bg-brutal-green-light text-5xl shadow-brutal">
           🚀
         </div>
 
         <h1 className="text-4xl font-black uppercase tracking-tight text-black">
-          Join <span className="text-brutal-blue">Open</span>
-          <span className="text-brutal-pink">Coders</span>
+          Join <span className="text-brutal-green">Open</span>
+          <span className="text-brutal-green-dark">Coders</span>
         </h1>
 
         <p className="mt-4 text-base font-semibold text-gray-600">
@@ -25,7 +25,7 @@ export default function LoginPage() {
             { label: "Contributions", value: "12K+" },
           ].map((s) => (
             <div key={s.label} className="text-center">
-              <div className="text-lg font-black text-brutal-pink">{s.value}</div>
+              <div className="text-lg font-black text-brutal-green">{s.value}</div>
               <div className="text-[10px] font-bold uppercase text-gray-400">{s.label}</div>
             </div>
           ))}
@@ -42,19 +42,19 @@ export default function LoginPage() {
         </a>
 
         <div className="mt-8 flex items-center gap-4">
-          <div className="h-[3px] flex-1 bg-black/10" />
+          <div className="h-[2px] flex-1 bg-black/10" />
           <span className="text-xs font-extrabold uppercase text-gray-400">What you get</span>
-          <div className="h-[3px] flex-1 bg-black/10" />
+          <div className="h-[2px] flex-1 bg-black/10" />
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3">
           {[
-            { icon: "🎯", label: "Portfolio", bg: "bg-brutal-lime/20" },
-            { icon: "🚀", label: "Launches", bg: "bg-brutal-yellow/20" },
-            { icon: "⭐", label: "Stars", bg: "bg-brutal-pink/20" },
-            { icon: "🤝", label: "Community", bg: "bg-brutal-cyan/20" },
+            { icon: "🎯", label: "Portfolio" },
+            { icon: "🚀", label: "Launches" },
+            { icon: "⭐", label: "Stars" },
+            { icon: "🤝", label: "Community" },
           ].map((item) => (
-            <div key={item.label} className={`rounded-lg border-2 border-black ${item.bg} p-3 text-center shadow-brutal-sm`}>
+            <div key={item.label} className="rounded-lg border border-black/15 bg-brutal-green-pale p-3 text-center shadow-brutal-sm">
               <div className="text-2xl">{item.icon}</div>
               <div className="mt-1 text-xs font-extrabold uppercase text-gray-600">{item.label}</div>
             </div>

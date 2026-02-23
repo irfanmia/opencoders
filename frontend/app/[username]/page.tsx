@@ -17,7 +17,7 @@ export default function ProfilePage() {
   const mockUser = getUserByUsername(username) || {
     ...mockUsers[0],
     username,
-    avatar_url: `https://ui-avatars.com/api/?name=${username}&background=a3e635&color=000&bold=true&size=128`,
+    avatar_url: `https://ui-avatars.com/api/?name=${username}&background=2BA24C&color=fff&bold=true&size=128`,
   };
 
   const contributions = getContributionsByUser(mockUser.id);
@@ -29,12 +29,12 @@ export default function ProfilePage() {
   return (
     <div>
       {/* Profile Header */}
-      <div className="card-brutal-pink">
+      <div className="card-brutal-green">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
           <img
             src={mockUser.avatar_url}
             alt={mockUser.username}
-            className="h-28 w-28 rounded-xl border-3 border-black shadow-brutal"
+            className="h-28 w-28 rounded-xl border border-black/20 shadow-brutal"
           />
           <div className="flex-1 text-center sm:text-left">
             <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
@@ -42,12 +42,12 @@ export default function ProfilePage() {
                 {mockUser.username}
               </h1>
               {mockUser.is_bot_verified && (
-                <span className="badge-brutal bg-brutal-lime text-black">✓ VERIFIED</span>
+                <span className="badge-brutal bg-brutal-green text-white">✓ VERIFIED</span>
               )}
               <button
                 onClick={() => setStarred((s) => !s)}
                 className={`badge-brutal transition-all cursor-pointer ${
-                  starred ? "bg-brutal-yellow text-black" : "bg-white text-gray-500 hover:bg-brutal-yellow/30"
+                  starred ? "bg-brutal-green text-white" : "bg-white text-gray-500 hover:bg-brutal-green-light"
                 }`}
               >
                 {starred ? "⭐ Starred" : "☆ Star"}
@@ -60,10 +60,10 @@ export default function ProfilePage() {
 
             <div className="mt-4 flex flex-wrap items-center gap-3 justify-center sm:justify-start">
               {mockUser.location && (
-                <span className="badge-brutal bg-brutal-cyan text-black">📍 {mockUser.location}</span>
+                <span className="badge-brutal bg-brutal-green-light text-brutal-green-dark">📍 {mockUser.location}</span>
               )}
               {mockUser.website && (
-                <a href={mockUser.website} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-brutal-blue text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
+                <a href={mockUser.website} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-brutal-green text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
                   🔗 {new URL(mockUser.website).hostname}
                 </a>
               )}
@@ -96,12 +96,10 @@ export default function ProfilePage() {
       </div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-3">
-        {/* Main content */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Pinned Contributions */}
           <section>
             <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
-              📌 Pinned <span className="text-brutal-blue">Contributions</span>
+              📌 Pinned <span className="text-brutal-green">Contributions</span>
             </h2>
             <div className="space-y-3">
               {pinnedContributions.length > 0 ? (
@@ -116,10 +114,9 @@ export default function ProfilePage() {
             </div>
           </section>
 
-          {/* Activity Timeline */}
           <section>
             <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
-              ⏳ Activity <span className="text-brutal-pink">Timeline</span>
+              ⏳ Activity <span className="text-brutal-green">Timeline</span>
             </h2>
             {contributions.length > 0 ? (
               <ActivityTimeline contributions={contributions} />
@@ -131,10 +128,8 @@ export default function ProfilePage() {
           </section>
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-6">
-          {/* Skills */}
-          <div className="card-brutal-yellow">
+          <div className="card-brutal-green">
             <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
               💻 Skills
             </h2>
@@ -145,10 +140,9 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Projects */}
           <div>
             <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
-              📦 <span className="text-brutal-pink">Projects</span>
+              📦 <span className="text-brutal-green">Projects</span>
             </h2>
             {projects.length > 0 ? (
               <div className="space-y-4">

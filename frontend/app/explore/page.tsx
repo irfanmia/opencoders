@@ -34,9 +34,9 @@ export default function ExplorePage() {
 
   return (
     <div>
-      <div className="mb-10 rounded-xl border-3 border-black bg-brutal-cyan/15 p-8 shadow-brutal-blue">
+      <div className="mb-10 rounded-xl border border-black/20 bg-brutal-green-light p-8 shadow-brutal-green">
         <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
-          🔍 Explore <span className="text-brutal-blue">{tab}</span>
+          🔍 Explore <span className="text-brutal-green">{tab}</span>
         </h1>
         <p className="mt-3 text-lg font-bold text-gray-600">
           Discover open source projects and developers from the community
@@ -54,8 +54,8 @@ export default function ExplorePage() {
             <button
               key={s}
               onClick={() => setSort(s)}
-              className={`rounded-md border-2 border-black px-3 py-1.5 text-[11px] font-extrabold uppercase transition-all ${
-                sort === s ? "bg-brutal-yellow shadow-none" : "bg-white shadow-brutal-sm hover:bg-brutal-yellow/20"
+              className={`rounded-md border border-black/20 px-3 py-1.5 text-[11px] font-extrabold uppercase transition-all ${
+                sort === s ? "bg-brutal-green text-white shadow-none" : "bg-white shadow-brutal-sm hover:bg-brutal-green-light"
               }`}
             >
               {s}

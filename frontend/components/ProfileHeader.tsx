@@ -2,16 +2,16 @@ import type { User } from "@/lib/api";
 
 export default function ProfileHeader({ user }: { user: User }) {
   return (
-    <div className="card-brutal-pink">
+    <div className="card-brutal-green">
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
         {user.avatar_url ? (
           <img
             src={user.avatar_url}
             alt={user.username}
-            className="h-28 w-28 rounded-xl border-3 border-black shadow-brutal"
+            className="h-28 w-28 rounded-xl border border-black/20 shadow-brutal"
           />
         ) : (
-          <div className="flex h-28 w-28 items-center justify-center rounded-xl border-3 border-black bg-brutal-pink text-5xl shadow-brutal">
+          <div className="flex h-28 w-28 items-center justify-center rounded-xl border border-black/20 bg-brutal-green text-5xl shadow-brutal text-white">
             👤
           </div>
         )}
@@ -22,7 +22,7 @@ export default function ProfileHeader({ user }: { user: User }) {
               {user.username}
             </h1>
             {user.is_bot_verified && (
-              <span className="badge-brutal bg-brutal-lime text-black">
+              <span className="badge-brutal bg-brutal-green text-white">
                 ✓ VERIFIED
               </span>
             )}
@@ -36,7 +36,7 @@ export default function ProfileHeader({ user }: { user: User }) {
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
             {user.location && (
-              <span className="badge-brutal bg-brutal-cyan text-black">
+              <span className="badge-brutal bg-brutal-green-light text-brutal-green-dark">
                 📍 {user.location}
               </span>
             )}
@@ -45,7 +45,7 @@ export default function ProfileHeader({ user }: { user: User }) {
                 href={user.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="badge-brutal bg-brutal-blue text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+                className="badge-brutal bg-brutal-green text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
               >
                 🔗 {new URL(user.website).hostname}
               </a>

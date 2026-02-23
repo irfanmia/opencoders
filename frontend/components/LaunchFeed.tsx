@@ -1,12 +1,5 @@
 import type { Launch } from "@/lib/api";
 
-const cardAccents = [
-  "shadow-brutal-lime",
-  "shadow-brutal-pink",
-  "shadow-brutal-blue",
-  "shadow-brutal-yellow",
-];
-
 export default function LaunchFeed({ launches }: { launches: Launch[] }) {
   if (launches.length === 0) {
     return (
@@ -21,10 +14,10 @@ export default function LaunchFeed({ launches }: { launches: Launch[] }) {
 
   return (
     <div className="space-y-5">
-      {launches.map((launch, i) => (
+      {launches.map((launch) => (
         <div
           key={launch.id}
-          className={`rounded-xl border-3 border-black bg-white p-6 ${cardAccents[i % cardAccents.length]} transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none`}
+          className="rounded-xl border border-black/20 bg-white p-6 shadow-brutal transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
         >
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-4 flex-1 min-w-0">
@@ -32,10 +25,10 @@ export default function LaunchFeed({ launches }: { launches: Launch[] }) {
                 <img
                   src={launch.project_detail.logo}
                   alt={launch.project_detail.name}
-                  className="h-16 w-16 rounded-xl border-3 border-black"
+                  className="h-16 w-16 rounded-xl border border-black/20"
                 />
               ) : (
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border-3 border-black bg-brutal-yellow text-3xl shadow-brutal-sm">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-black/20 bg-brutal-green-light text-3xl shadow-brutal-sm">
                   🚀
                 </div>
               )}
@@ -47,14 +40,14 @@ export default function LaunchFeed({ launches }: { launches: Launch[] }) {
                   {launch.description}
                 </p>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className="badge-brutal bg-brutal-pink/10 text-brutal-pink">
+                  <span className="badge-brutal bg-brutal-green-light text-brutal-green-dark">
                     by {launch.launched_by.username}
                   </span>
                   <span className="badge-brutal bg-brutal-muted text-gray-500 font-mono">
                     {new Date(launch.launch_date).toLocaleDateString()}
                   </span>
                   {launch.seeking_help && (
-                    <span className="badge-brutal bg-brutal-orange text-black animate-pulse">
+                    <span className="badge-brutal bg-brutal-green-accent text-white animate-pulse">
                       🤝 SEEKING HELP
                     </span>
                   )}
@@ -63,7 +56,7 @@ export default function LaunchFeed({ launches }: { launches: Launch[] }) {
             </div>
 
             <div className="flex flex-col items-center gap-1 shrink-0">
-              <button className="flex h-14 w-14 flex-col items-center justify-center rounded-lg border-3 border-black bg-white text-black shadow-brutal-sm transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none hover:bg-brutal-lime">
+              <button className="flex h-14 w-14 flex-col items-center justify-center rounded-lg border border-black/20 bg-white text-black shadow-brutal-sm transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none hover:bg-brutal-green-light">
                 <span className="text-lg font-black">▲</span>
                 <span className="text-xs font-extrabold">
                   {launch.upvote_count}

@@ -1,10 +1,10 @@
-const barColors = [
-  "bg-brutal-lime",
-  "bg-brutal-pink",
-  "bg-brutal-blue",
-  "bg-brutal-yellow",
-  "bg-brutal-orange",
-  "bg-brutal-cyan",
+const barShades = [
+  "bg-brutal-green",
+  "bg-brutal-green-dark",
+  "bg-brutal-green-accent",
+  "bg-brutal-green",
+  "bg-brutal-green-dark",
+  "bg-brutal-green-accent",
 ];
 
 export default function SkillBar({ skills }: { skills: { name: string; level: number }[] }) {
@@ -16,9 +16,9 @@ export default function SkillBar({ skills }: { skills: { name: string; level: nu
             <span className="text-sm font-extrabold uppercase">{skill.name}</span>
             <span className="text-xs font-bold text-gray-500">{skill.level}%</span>
           </div>
-          <div className="h-5 w-full rounded-md border-2 border-black bg-brutal-muted overflow-hidden">
+          <div className="h-5 w-full rounded-md border border-black/15 bg-brutal-muted overflow-hidden">
             <div
-              className={`h-full ${barColors[i % barColors.length]} border-r-2 border-black transition-all duration-700`}
+              className={`h-full ${barShades[i % barShades.length]} transition-all duration-700`}
               style={{ width: `${skill.level}%` }}
             />
           </div>

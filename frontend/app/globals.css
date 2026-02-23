@@ -16,67 +16,73 @@
 
 @layer components {
   .card-brutal {
-    @apply rounded-xl border-3 border-black bg-white p-6
+    @apply rounded-xl border border-black/20 bg-white p-6
            shadow-brutal transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
+  }
+
+  .card-brutal-green {
+    @apply rounded-xl border border-black/20 bg-brutal-green-light p-6
+           shadow-brutal transition-all
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
   }
 
   .card-brutal-lime {
-    @apply rounded-xl border-3 border-black bg-brutal-lime/10 p-6
-           shadow-brutal-lime transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+    @apply rounded-xl border border-black/20 bg-brutal-green-light p-6
+           shadow-brutal transition-all
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
   }
 
   .card-brutal-pink {
-    @apply rounded-xl border-3 border-black bg-brutal-pink/10 p-6
-           shadow-brutal-pink transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+    @apply rounded-xl border border-black/20 bg-brutal-green-pale p-6
+           shadow-brutal transition-all
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
   }
 
   .card-brutal-blue {
-    @apply rounded-xl border-3 border-black bg-brutal-blue/10 p-6
-           shadow-brutal-blue transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+    @apply rounded-xl border border-black/20 bg-brutal-green-light p-6
+           shadow-brutal transition-all
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
   }
 
   .card-brutal-yellow {
-    @apply rounded-xl border-3 border-black bg-brutal-yellow/10 p-6
-           shadow-brutal-yellow transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none;
+    @apply rounded-xl border border-black/20 bg-brutal-green-pale p-6
+           shadow-brutal transition-all
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none;
   }
 
   .btn-brutal {
-    @apply inline-flex items-center gap-2 rounded-lg border-3 border-black
-           bg-brutal-lime px-5 py-2.5 text-sm font-extrabold text-black uppercase tracking-wide
+    @apply inline-flex items-center gap-2 rounded-lg border border-black/20
+           bg-brutal-green px-5 py-2.5 text-sm font-extrabold text-white uppercase tracking-wide
            shadow-brutal transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-           active:translate-x-[4px] active:translate-y-[4px];
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none hover:bg-brutal-green-dark
+           active:translate-x-[2px] active:translate-y-[2px];
   }
 
   .btn-brutal-pink {
-    @apply inline-flex items-center gap-2 rounded-lg border-3 border-black
-           bg-brutal-pink px-5 py-2.5 text-sm font-extrabold text-white uppercase tracking-wide
+    @apply inline-flex items-center gap-2 rounded-lg border border-black/20
+           bg-brutal-green-dark px-5 py-2.5 text-sm font-extrabold text-white uppercase tracking-wide
            shadow-brutal transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-           active:translate-x-[4px] active:translate-y-[4px];
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none
+           active:translate-x-[2px] active:translate-y-[2px];
   }
 
   .btn-brutal-outline {
-    @apply inline-flex items-center gap-2 rounded-lg border-3 border-black
+    @apply inline-flex items-center gap-2 rounded-lg border border-black/20
            bg-white px-5 py-2.5 text-sm font-extrabold text-black uppercase tracking-wide
            shadow-brutal transition-all
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-brutal-lime;
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none hover:bg-brutal-green-light;
   }
 
   .badge-brutal {
-    @apply inline-flex items-center rounded-md border-2 border-black px-2.5 py-1
+    @apply inline-flex items-center rounded-md border border-black/15 px-2.5 py-1
            text-xs font-extrabold uppercase tracking-wider shadow-brutal-sm;
   }
 
   .input-brutal {
-    @apply w-full rounded-lg border-3 border-black bg-white px-4 py-3
+    @apply w-full rounded-lg border border-black/20 bg-white px-4 py-3
            text-black font-bold placeholder-gray-400
            shadow-brutal transition-all
-           focus:shadow-brutal-lime focus:outline-none;
+           focus:shadow-brutal-green focus:outline-none focus:border-brutal-green;
   }
 }

@@ -15,10 +15,10 @@ export default function FilterTabs({
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          className={`rounded-lg border-3 border-black px-4 py-2 text-xs font-extrabold uppercase tracking-wide transition-all ${
+          className={`rounded-lg border border-black/20 px-4 py-2 text-xs font-extrabold uppercase tracking-wide transition-all ${
             active === tab
-              ? "bg-brutal-lime shadow-none translate-x-[2px] translate-y-[2px]"
-              : "bg-white shadow-brutal-sm hover:bg-brutal-lime/20 hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+              ? "bg-brutal-green text-white shadow-none translate-x-[1px] translate-y-[1px]"
+              : "bg-white shadow-brutal-sm hover:bg-brutal-green-light hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
           }`}
         >
           {tab}
