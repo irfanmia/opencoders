@@ -205,7 +205,14 @@ export default function Home() {
                     <img src={project.owner.avatar_url} alt="" className="h-4 w-4 rounded-full border border-gray-200" />
                     {project.owner.username}
                   </Link>
-                  <span className="text-xs text-gray-400">{timeAgo(project.created_at)}</span>
+                  <div className="flex items-center gap-2">
+                    {project.repo_url && (
+                      <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-gray-200 bg-section px-2 py-0.5 text-[10px] font-medium text-gray-700 hover:bg-primary-light hover:text-primary transition-colors">
+                        Repo →
+                      </a>
+                    )}
+                    <span className="text-xs text-gray-400">{timeAgo(project.created_at)}</span>
+                  </div>
                 </div>
               </div>
             </FadeIn>

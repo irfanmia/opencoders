@@ -85,6 +85,11 @@ export default function LaunchpadPage() {
                         <span className="badge-clean bg-section text-gray-500">
                           {timeAgo(launch.launch_date)}
                         </span>
+                        {launch.project_detail?.repo_url && (
+                          <a href={launch.project_detail.repo_url} target="_blank" rel="noopener noreferrer" className="badge-clean bg-section text-gray-700 border border-gray-200 hover:bg-primary-light hover:text-primary transition-colors">
+                            Repo →
+                          </a>
+                        )}
                         {launch.seeking_help && (
                           <span className="badge-clean bg-primary text-white animate-pulse">
                             🤝 Seeking Help
