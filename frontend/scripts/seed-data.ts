@@ -1,4 +1,4 @@
-import type { User, Project, Contribution, Launch } from "./api";
+import type { User, Project, Contribution, Launch } from "../lib/types";
 
 // Extended types for mock data
 export interface MockUser extends User {

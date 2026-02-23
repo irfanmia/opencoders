@@ -1,4 +1,4 @@
-import type { User } from "@/lib/api";
+import type { User } from "@/lib/types";
 
 export default function ProfileHeader({ user }: { user: User }) {
   return (

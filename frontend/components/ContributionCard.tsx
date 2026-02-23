@@ -1,4 +1,4 @@
-import type { Contribution } from "@/lib/api";
+import type { Contribution } from "@/lib/types";
 
 const typeStyles = {
   PR: { bg: "bg-primary-light", icon: "🔀" },

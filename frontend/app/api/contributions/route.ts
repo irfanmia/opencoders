@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { contributions, users } from '@/lib/schema';
+import { contributions, users, projects } from '@/lib/schema';
 import { eq, desc } from 'drizzle-orm';
 
 const typeMap: Record<string, string> = {
@@ -26,9 +26,11 @@ export async function GET(request: Request) {
         createdAt: contributions.createdAt,
         username: users.username,
         avatarUrl: users.avatarUrl,
+        projectName: projects.name,
       })
       .from(contributions)
       .leftJoin(users, eq(contributions.userId, users.id))
+      .leftJoin(projects, eq(contributions.projectId, projects.id))
       .orderBy(desc(contributions.createdAt))
       .$dynamic();
 
@@ -42,6 +44,7 @@ export async function GET(request: Request) {
       id: c.id,
       user: { id: c.userId, username: c.username, avatar_url: c.avatarUrl },
       project: c.projectId,
+      project_name: c.projectName || undefined,
       type: typeMap[c.type] || 'COMMIT',
       verification_status: 'VERIFIED',
       url: c.url,

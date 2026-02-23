@@ -1,7 +1,15 @@
 import Link from "next/link";
-import type { MockUser } from "@/lib/mock-data";
 
-export default function DeveloperCard({ user, index }: { user: MockUser; index: number }) {
+interface DeveloperUser {
+  username: string;
+  avatar_url: string;
+  bio: string;
+  skills: { name: string; level: number }[];
+  contribution_count: number;
+  followers: number;
+}
+
+export default function DeveloperCard({ user, index }: { user: DeveloperUser; index: number }) {
   return (
     <Link href={`/${user.username}`}>
       <div className="rounded-xl bg-white p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">

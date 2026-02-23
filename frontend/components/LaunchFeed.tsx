@@ -1,4 +1,4 @@
-import type { Launch } from "@/lib/api";
+import type { Launch } from "@/lib/types";
 
 export default function LaunchFeed({ launches }: { launches: Launch[] }) {
   if (launches.length === 0) {

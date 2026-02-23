@@ -1,22 +1,3 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://api.opencoders.org";
-
-async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
-
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json();
-}
-
-// Types
 export interface User {
   id: number;
   username: string;
@@ -50,6 +31,7 @@ export interface Contribution {
   id: number;
   user: Pick<User, "id" | "username" | "avatar_url">;
   project: number;
+  project_name?: string;
   type: "PR" | "COMMIT" | "ISSUE";
   verification_status: "PENDING" | "VERIFIED" | "REJECTED";
   url: string;
@@ -75,26 +57,3 @@ export interface PaginatedResponse<T> {
   previous: string | null;
   results: T[];
 }
-
-// API methods
-export const api = {
-  users: {
-    list: () => fetchAPI<PaginatedResponse<User>>("/api/users/"),
-    get: (username: string) => fetchAPI<User>(`/api/users/${username}/`),
-    me: () => fetchAPI<User>("/api/users/me/"),
-  },
-  projects: {
-    list: () => fetchAPI<PaginatedResponse<Project>>("/api/projects/"),
-    get: (slug: string) => fetchAPI<Project>(`/api/projects/${slug}/`),
-  },
-  contributions: {
-    list: (userId?: number) =>
-      fetchAPI<PaginatedResponse<Contribution>>(
-        `/api/contributions/${userId ? `?user=${userId}` : ""}`
-      ),
-  },
-  launches: {
-    list: () => fetchAPI<PaginatedResponse<Launch>>("/api/launches/launches/"),
-    get: (id: number) => fetchAPI<Launch>(`/api/launches/launches/${id}/`),
-  },
-};

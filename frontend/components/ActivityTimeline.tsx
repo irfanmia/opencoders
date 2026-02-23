@@ -1,5 +1,5 @@
-import type { Contribution } from "@/lib/api";
-import { timeAgo, getProjectById } from "@/lib/mock-data";
+import type { Contribution } from "@/lib/types";
+import { timeAgo } from "@/lib/utils";
 
 const typeIcons: Record<string, { icon: string; bg: string }> = {
   PR: { icon: "🔀", bg: "bg-primary-light" },
@@ -13,7 +13,6 @@ export default function ActivityTimeline({ contributions }: { contributions: Con
       <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gray-200" />
       {contributions.map((c) => {
         const style = typeIcons[c.type];
-        const project = getProjectById(c.project);
         return (
           <div key={c.id} className="relative mb-5 last:mb-0">
             <div className={`absolute -left-5 flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 ${style.bg} text-sm`}>
@@ -24,8 +23,8 @@ export default function ActivityTimeline({ contributions }: { contributions: Con
                 {c.title}
               </a>
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                {project && (
-                  <span className="text-xs font-medium text-primary">{project.name}</span>
+                {c.project_name && (
+                  <span className="text-xs font-medium text-primary">{c.project_name}</span>
                 )}
                 <span className="text-xs font-normal text-gray-400">{timeAgo(c.date)}</span>
                 {c.verification_status === "VERIFIED" && (
