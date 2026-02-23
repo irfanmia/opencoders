@@ -15,8 +15,8 @@ const config: Config = {
         section: "#F9FAFB",
       },
       fontFamily: {
-        heading: ["'Space Grotesk'", "sans-serif"],
-        body: ["'Space Grotesk'", "sans-serif"],
+        heading: ["'Manrope'", "sans-serif"],
+        body: ["'Inter'", "system-ui", "sans-serif"],
       },
     },
   },
