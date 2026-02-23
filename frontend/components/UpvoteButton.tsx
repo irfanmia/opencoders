@@ -13,12 +13,12 @@ export default function UpvoteButton({ initialCount }: { initialCount: number })
   return (
     <button
       onClick={toggle}
-      className={`flex h-16 w-16 flex-col items-center justify-center rounded-lg border border-black/20 text-black shadow-brutal-sm transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ${
-        voted ? "bg-brutal-green text-white scale-105" : "bg-white hover:bg-brutal-green-light"
+      className={`flex h-16 w-16 flex-col items-center justify-center rounded-lg border transition-colors ${
+        voted ? "bg-primary text-white border-primary" : "bg-white border-gray-200 text-gray-700 hover:bg-primary-light hover:border-primary"
       }`}
     >
-      <span className={`text-lg font-black transition-transform ${voted ? "scale-125" : ""}`}>▲</span>
-      <span className="text-xs font-extrabold">{count}</span>
+      <span className={`text-lg font-bold transition-transform ${voted ? "scale-110" : ""}`}>▲</span>
+      <span className="text-xs font-semibold">{count}</span>
     </button>
   );
 }

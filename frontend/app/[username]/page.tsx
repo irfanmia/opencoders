@@ -29,25 +29,25 @@ export default function ProfilePage() {
   return (
     <div>
       {/* Profile Header */}
-      <div className="card-brutal-green">
+      <div className="rounded-xl bg-white shadow-sm border border-gray-100 p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
           <img
             src={mockUser.avatar_url}
             alt={mockUser.username}
-            className="h-28 w-28 rounded-xl border border-black/20 shadow-brutal"
+            className="h-28 w-28 rounded-xl border border-gray-200 shadow-md"
           />
           <div className="flex-1 text-center sm:text-left">
             <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
-              <h1 className="text-3xl font-black uppercase tracking-tight text-black">
+              <h1 className="text-3xl font-heading text-gray-900">
                 {mockUser.username}
               </h1>
               {mockUser.is_bot_verified && (
-                <span className="badge-brutal bg-brutal-green text-white">✓ VERIFIED</span>
+                <span className="badge-clean bg-primary text-white">✓ Verified</span>
               )}
               <button
                 onClick={() => setStarred((s) => !s)}
-                className={`badge-brutal transition-all cursor-pointer ${
-                  starred ? "bg-brutal-green text-white" : "bg-white text-gray-500 hover:bg-brutal-green-light"
+                className={`badge-clean transition-colors cursor-pointer ${
+                  starred ? "bg-primary text-white" : "bg-section text-gray-500 hover:bg-primary-light"
                 }`}
               >
                 {starred ? "⭐ Starred" : "☆ Star"}
@@ -55,31 +55,31 @@ export default function ProfilePage() {
             </div>
 
             {mockUser.bio && (
-              <p className="mt-3 max-w-xl text-base font-semibold text-gray-600">{mockUser.bio}</p>
+              <p className="mt-3 max-w-xl text-base font-normal text-gray-500">{mockUser.bio}</p>
             )}
 
             <div className="mt-4 flex flex-wrap items-center gap-3 justify-center sm:justify-start">
               {mockUser.location && (
-                <span className="badge-brutal bg-brutal-green-light text-brutal-green-dark">📍 {mockUser.location}</span>
+                <span className="badge-clean bg-primary-light text-primary-dark">📍 {mockUser.location}</span>
               )}
               {mockUser.website && (
-                <a href={mockUser.website} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-brutal-green text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
+                <a href={mockUser.website} target="_blank" rel="noopener noreferrer" className="badge-clean bg-primary text-white hover:bg-primary-dark transition-colors">
                   🔗 {new URL(mockUser.website).hostname}
                 </a>
               )}
               {mockUser.github_url && (
-                <a href={mockUser.github_url} target="_blank" rel="noopener noreferrer" className="badge-brutal bg-black text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all">
+                <a href={mockUser.github_url} target="_blank" rel="noopener noreferrer" className="badge-clean bg-gray-900 text-white hover:bg-gray-700 transition-colors">
                   GitHub
                 </a>
               )}
-              <span className="badge-brutal bg-brutal-muted text-gray-600">
+              <span className="badge-clean bg-section text-gray-500">
                 Joined {new Date(mockUser.created_at).toLocaleDateString()}
               </span>
             </div>
 
-            <div className="mt-3 flex gap-4 justify-center sm:justify-start text-sm font-bold">
-              <span><strong className="text-black">{mockUser.followers}</strong> <span className="text-gray-400">followers</span></span>
-              <span><strong className="text-black">{mockUser.following}</strong> <span className="text-gray-400">following</span></span>
+            <div className="mt-3 flex gap-4 justify-center sm:justify-start text-sm">
+              <span><strong className="text-gray-900">{mockUser.followers}</strong> <span className="text-gray-400">followers</span></span>
+              <span><strong className="text-gray-900">{mockUser.following}</strong> <span className="text-gray-400">following</span></span>
             </div>
           </div>
         </div>
@@ -98,8 +98,8 @@ export default function ProfilePage() {
       <div className="mt-10 grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-8">
           <section>
-            <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
-              📌 Pinned <span className="text-brutal-green">Contributions</span>
+            <h2 className="text-2xl font-heading text-gray-900 mb-4">
+              📌 Pinned <span className="text-primary">Contributions</span>
             </h2>
             <div className="space-y-3">
               {pinnedContributions.length > 0 ? (
@@ -107,42 +107,42 @@ export default function ProfilePage() {
                   <ContributionCard key={c.id} contribution={c} />
                 ))
               ) : (
-                <div className="card-brutal text-center py-8">
-                  <p className="font-black uppercase text-gray-400">No pinned contributions yet</p>
+                <div className="card-clean text-center py-8">
+                  <p className="font-medium text-gray-400">No pinned contributions yet</p>
                 </div>
               )}
             </div>
           </section>
 
           <section>
-            <h2 className="text-2xl font-black uppercase tracking-tight text-black mb-4">
-              ⏳ Activity <span className="text-brutal-green">Timeline</span>
+            <h2 className="text-2xl font-heading text-gray-900 mb-4">
+              ⏳ Activity <span className="text-primary">Timeline</span>
             </h2>
             {contributions.length > 0 ? (
               <ActivityTimeline contributions={contributions} />
             ) : (
-              <div className="card-brutal text-center py-8">
-                <p className="font-black uppercase text-gray-400">No activity yet</p>
+              <div className="card-clean text-center py-8">
+                <p className="font-medium text-gray-400">No activity yet</p>
               </div>
             )}
           </section>
         </div>
 
         <div className="space-y-6">
-          <div className="card-brutal-green">
-            <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
+          <div className="card-clean-green">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
               💻 Skills
             </h2>
             {mockUser.skills && mockUser.skills.length > 0 ? (
               <SkillBar skills={mockUser.skills} />
             ) : (
-              <p className="text-sm font-semibold text-gray-400">No skills data</p>
+              <p className="text-sm font-normal text-gray-400">No skills data</p>
             )}
           </div>
 
           <div>
-            <h2 className="text-lg font-black uppercase tracking-tight text-black mb-4">
-              📦 <span className="text-brutal-green">Projects</span>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              📦 <span className="text-primary">Projects</span>
             </h2>
             {projects.length > 0 ? (
               <div className="space-y-4">
@@ -151,8 +151,8 @@ export default function ProfilePage() {
                 ))}
               </div>
             ) : (
-              <div className="card-brutal text-center py-6">
-                <p className="font-black uppercase text-gray-400 text-sm">No projects yet</p>
+              <div className="card-clean text-center py-6">
+                <p className="font-medium text-gray-400 text-sm">No projects yet</p>
               </div>
             )}
           </div>

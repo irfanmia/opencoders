@@ -17,7 +17,7 @@ export default function SearchBar({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="input-brutal pl-12"
+        className="input-clean pl-12"
       />
     </div>
   );
